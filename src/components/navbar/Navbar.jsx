@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Container,
     Nav,
     Navbar,
     NavDropdown,
-    Image
+    Image,
+    Modal,
+    Button,
+    Form
 } from "react-bootstrap";
 import "../../assets/css/style.css";
 import LogoWarehouseHub from "../../assets/images/logo-warehouse.png";
@@ -13,12 +16,32 @@ import StandLineNavbar from "../../assets/images/stand-line-navbar.png";
 
 const NavbarGeneral = () => {
 
+    /* -------------------- Form Category -------------------- */
+
+    const [showFormCategory, setShowFormCategory] = useState(false);
+
+    const handleCloseFormCategory = () => setShowFormCategory(false);
+    const handleShowFormCategory = () => setShowFormCategory(true);
+
+    /* -------------------- End Form Category -------------------- */
+
+
+    /* -------------------- Form Product -------------------- */
+
+    const [showFormProduct, setShowFormProduct] = useState(false);
+
+    const handleCloseFormProduct = () => setShowFormProduct(false);
+    const handleShowFormProduct = () => setShowFormProduct(true);
+
+    /* -------------------- End Form Category -------------------- */
+
+
     return (
 
         <Navbar className="navbar" expand="lg" fixed="top">
             <Container>
                 <Navbar.Brand href="#home">
-                    <Image src={LogoWarehouseHub}/>
+                    <Image src={LogoWarehouseHub} />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -28,16 +51,16 @@ const NavbarGeneral = () => {
                             Dashboard
                         </Nav.Link>
                         <NavDropdown className="nav-dropdown-master" title={
-                            <span> 
+                            <span>
                                 <i class="bi bi-database-add"></i>
-                                Master Data 
+                                Master Data
                             </span>
                         } id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.2">
+                            <NavDropdown.Item onClick={handleShowFormCategory}>
                                 Add Category
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.4">
-                                Add product
+                            <NavDropdown.Item onClick={handleShowFormProduct}>
+                                Add Product
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link className="nav-item">
@@ -53,6 +76,78 @@ const NavbarGeneral = () => {
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
+
+                {/* ----------------- Modal Form Category ----------------- */}
+
+                <Modal show={showFormCategory} onHide={handleCloseFormCategory}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Form Category</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Control type="text" placeholder="Add your category" />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseFormCategory}>
+                            Close
+                        </Button>
+                        <Button variant="success" onClick={handleCloseFormCategory}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* ----------------- End Modal Form Category ----------------- */}
+
+
+                {/* ----------------- Modal Form Category ----------------- */}
+
+                <Modal show={showFormProduct} onHide={handleCloseFormProduct}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Form Product</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control type="text" placeholder="Example: Kanopi" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Length</Form.Label>
+                                <Form.Control type="text" placeholder="Example: 8" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Stock</Form.Label>
+                                <Form.Control type="text" placeholder="Example: 10" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control type="text" placeholder="Example: 30000" />
+                            </Form.Group>
+                            <Form.Select aria-label="Default select example">
+                                <option>Category</option>
+                                <option value="1">Baja Ringan Hollow</option>
+                                <option value="2">Baja Ringan Reng</option>
+                                <option value="3">Baja Ringan Bondek</option>
+                            </Form.Select>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseFormProduct}>
+                            Close
+                        </Button>
+                        <Button variant="success" onClick={handleCloseFormProduct}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* ----------------- End Modal Form Category ----------------- */}
+
             </Container>
         </Navbar>
 
