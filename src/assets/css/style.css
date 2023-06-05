@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900 & display: swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar{
+    padding: 10px 0;
+    background: #01162F;
+}
+
+.nav-brand{
+    font-weight: 800;
+    font-size: 30px;
+}
+
+.nav-item{
+    margin-right: 40px;
+    color: #FFFFFF;
+    font-weight: 500;
+    text-decoration: none;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-dropdown-master{
+    color: #FFFFFF; 
+    font-weight: 500;
+    text-decoration: none;
+    list-style: none;
+}
+
+.nav-profile .profile-admin{
+    display: flex;
+    color: #FFFFFF;
+    font-weight: 500;
+    text-decoration: none;
+    list-style: none;
+}
+
+.nav-profile .profile-admin .stand-line-navbar{
+    margin-right: 10px;
+    height: 30px;
+}
+
+.nav-profile .profile-admin .profile-admin-image{
+    margin-right: 10px;
+    height: 30px;
+}
+
+.nav-item:hover{
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.nav-dropdown-master:hover{
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.nav-item i{
+    margin-right: 10px;
+}
+
+
+/* ---------- End Navbar ---------- */
+
+
+/* ---------- Header Content ---------- */
+
+#header-warehouse-content {
+    margin: 5% 0;
+    height: 80vh;
+    background-color: #01162F;
+}
+
+#header-warehouse-content .header-warehouse-greetings h1{
+    margin: 10% 0 0;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+#header-warehouse-content .header-warehouse-greetings p{
+    margin: 1% 0;
+    color: #FFFFFF;
+}
+
+#header-warehouse-content .header-choose-analytics{
+    margin: 6% 0 0;
+}
+
+.header-choose-analytics .btn-choose-analytics{
+    padding: 10px 25px;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: 0.2s all ease-in-out;
+}
+
+.header-choose-analytics .active{
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+    width: 100%;
+    height: 100%;
+    padding: 10px 25px;
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: 0.2s all ease-in-out;
+}
+
+.header-choose-analytics .btn-choose-analytics:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #FFFFFF;
+}
+
+#header-warehouse-content hr{
+    margin: 2% 0 4%;
+    color: #FFFFFF;
+    border: #FFFFFF solid 1px;
+}
+
+/* ---------- End Header Content ---------- */
+
+
+/* ---------- Card Result Content  ---------- */
+
+#warehouse-overview{
+    position: relative;
+}
+
+
+/* ---------- End Card Result Content  ---------- */
