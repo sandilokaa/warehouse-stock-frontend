@@ -27,11 +27,11 @@
     align-items: center;
 }
 
-.nav-dropdown-master{
-    color: #FFFFFF; 
-    font-weight: 500;
-    text-decoration: none;
-    list-style: none;
+#basic-nav-dropdown{
+    color: #FFFFFF !important; 
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    list-style: none !important;
 }
 
 .nav-profile .profile-admin{
@@ -57,9 +57,9 @@
     color: #FFFFFF;
 }
 
-.nav-dropdown-master:hover{
-    font-weight: 600;
-    color: #FFFFFF;
+#basic-nav-dropdown{
+    color: #FFFFFF !important; 
+    font-weight: 600 !important;
 }
 
 .nav-item i{
