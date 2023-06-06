@@ -22,45 +22,93 @@ const Home = () => {
                 <Container>
                     <div className="card-result-total">
                         <Row className="row-result-total">
-                            <Col className="col-12 col-lg-4">
-                                <Card style={{ width: '100%' }}>
+                            <Col className="col-12 col-lg-4 mt-3">
+                                <Card>
                                     <Card.Body>
-                                        <Card.Title>Card Title</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+                                        <Card.Title>
+                                            <Row>
+                                                <Col className="col-3 col-lg-3">
+                                                    <i class="bi bi-shop"></i>
+                                                </Col>
+                                                <Col className="col-9 col-lg-9">
+                                                    Total Products
+                                                </Col>
+                                            </Row>
+                                        </Card.Title>
                                         <Card.Text>
                                             Some quick example text to build on the card title and make up the
                                             bulk of the card's content.
                                         </Card.Text>
-                                        <Card.Link href="#">Card Link</Card.Link>
-                                        <Card.Link href="#">Another Link</Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col className="col-12 col-lg-4 mt-3">
+                                <Card>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            <Row>
+                                                <Col className="col-3 col-lg-3">
+                                                    <i class="bi bi-cash-coin"></i>
+                                                </Col>
+                                                <Col className="col-9 col-lg-9">
+                                                    Total Sales
+                                                </Col>
+                                            </Row>
+                                        </Card.Title>
+                                        <Card.Text>
+                                            Some quick example text to build on the card title and make up the
+                                            bulk of the card's content.
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col className="col-12 col-lg-4 mt-3">
+                                <Card>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            <Row>
+                                                <Col className="col-3 col-lg-3">
+                                                    <i class="bi bi-cart-check"></i>
+                                                </Col>
+                                                <Col className="col-9 col-lg-9">
+                                                    Total Orders
+                                                </Col>
+                                            </Row>
+                                        </Card.Title>
+                                        <Card.Text>
+                                            Some quick example text to build on the card title and make up the
+                                            bulk of the card's content.
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </div>
+                    <div className="card-analytics-diagram">
+                        <Row>
+                            <Col className="col-12 col-lg-8">
+                                <Card>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            Diagram Analytics
+                                        </Card.Title>
+                                        <Card.Text>
+                                            Some quick example text to build on the card title and make up the
+                                            bulk of the card's content.
+                                        </Card.Text>
                                     </Card.Body>
                                 </Card>
                             </Col>
                             <Col className="col-12 col-lg-4">
-                                <Card style={{ width: '100%' }}>
+                                <Card>
                                     <Card.Body>
-                                        <Card.Title>Card Title</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+                                        <Card.Title>
+                                            Diagram Analytics
+                                        </Card.Title>
                                         <Card.Text>
                                             Some quick example text to build on the card title and make up the
                                             bulk of the card's content.
                                         </Card.Text>
-                                        <Card.Link href="#">Card Link</Card.Link>
-                                        <Card.Link href="#">Another Link</Card.Link>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col className="col-12 col-lg-4">
-                                <Card style={{ width: '100%' }}>
-                                    <Card.Body>
-                                        <Card.Title>Card Title</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-                                        <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
-                                        </Card.Text>
-                                        <Card.Link href="#">Card Link</Card.Link>
-                                        <Card.Link href="#">Another Link</Card.Link>
                                     </Card.Body>
                                 </Card>
                             </Col>

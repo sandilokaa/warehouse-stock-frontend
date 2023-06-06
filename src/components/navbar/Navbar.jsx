@@ -79,7 +79,7 @@ const NavbarGeneral = () => {
 
                 {/* ----------------- Modal Form Category ----------------- */}
 
-                <Modal show={showFormCategory} onHide={handleCloseFormCategory}>
+                <Modal show={showFormCategory} onHide={handleCloseFormCategory} aria-labelledby="contained-modal-title-vcenter" centered>
                     <Modal.Header closeButton>
                         <Modal.Title>Form Category</Modal.Title>
                     </Modal.Header>
@@ -106,7 +106,7 @@ const NavbarGeneral = () => {
 
                 {/* ----------------- Modal Form Category ----------------- */}
 
-                <Modal show={showFormProduct} onHide={handleCloseFormProduct}>
+                <Modal show={showFormProduct} onHide={handleCloseFormProduct} aria-labelledby="contained-modal-title-vcenter" centered>
                     <Modal.Header closeButton>
                         <Modal.Title>Form Product</Modal.Title>
                     </Modal.Header>

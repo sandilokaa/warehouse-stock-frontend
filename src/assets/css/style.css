@@ -77,8 +77,8 @@ body{
 /* ---------- Header Content ---------- */
 
 #header-warehouse-content {
-    margin: 5% 0;
-    height: 80vh;
+    margin: 0;
+    height: 70vh;
     background-color: #01162F;
 }
 
@@ -141,5 +141,52 @@ body{
     position: relative;
 }
 
+.card-result-total{
+    margin: -8% 0 0;
+}
+
+.card-result-total .card{
+    height: 100%;
+    width: 100%;
+    padding: 4%;
+}
+
+.card-result-total .card-title{
+    font-weight: 600;
+}
+
+.card-result-total .card-text{
+    margin: 30px 0 0;
+}
+
+.card-result-total .bi-shop{
+    padding: 14px 18px;
+    background-color: #0078FD;
+    color: #FFFFFF;
+    border-radius: 50px;
+}
+
+.card-result-total .bi-cash-coin{
+    padding: 14px 18px;
+    background-color: #FF623E;
+    color: #FFFFFF;
+    border-radius: 50px;
+}
+
+.card-result-total .bi-cart-check{
+    padding: 14px 18px;
+    background-color: #FC026C;
+    color: #FFFFFF;
+    border-radius: 50px;
+}
+
+.card-analytics-diagram{
+    margin: 6% 0;
+}
+
+.card-analytics-diagram .card{
+    height: 100%;
+    width: 100%;
+}
 
 /* ---------- End Card Result Content  ---------- */
