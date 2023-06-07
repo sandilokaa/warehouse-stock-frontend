@@ -74,6 +74,11 @@ const NavbarGeneral = () => {
                                 John Doe
                             </div>
                         </Nav.Link>
+                        <Nav.Link className="nav-button">
+                            <div className="btn-logout">
+                                Logout
+                            </div>
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
 
