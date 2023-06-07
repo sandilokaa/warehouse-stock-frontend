@@ -57,7 +57,6 @@ body{
 }
 
 .nav-button{
-    margin: 0 0 0 20px;
     color: #FFFFFF;
     font-weight: 500;
     text-decoration: none;
@@ -66,8 +65,6 @@ body{
 
 .nav-button .btn-logout{
     padding: 2px 10px;
-    height: 100%;
-    width: 100%;
     background-color: #B31312;
     border-radius: 8px;
     color: #FFFFFF;
