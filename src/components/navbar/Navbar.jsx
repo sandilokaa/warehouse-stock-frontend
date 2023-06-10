@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Container,
     Nav,
@@ -13,6 +13,8 @@ import "../../assets/css/style.css";
 import LogoWarehouseHub from "../../assets/images/logo-warehouse.png";
 import ProfileAdminImage from "../../assets/images/undraw_profile_2.svg";
 import StandLineNavbar from "../../assets/images/stand-line-navbar.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const NavbarGeneral = () => {
 
@@ -36,7 +38,69 @@ const NavbarGeneral = () => {
     /* -------------------- End Form Category -------------------- */
 
 
-    return (
+    /* -------------------- Current Admin -------------------- */
+
+    const navigate = useNavigate();
+
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [admin, setAdmin] = useState({});
+    const [isRefresh, setIsRefresh] = useState(false);
+
+    useEffect(() => {
+
+        const validateLogin = async () => {
+
+            try {
+
+                const token = localStorage.getItem("token");
+
+                const currentAdminRequest = await axios.get(
+                    `http://localhost:2000/v1/auth/me`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                const currentAdminResponse = currentAdminRequest.data;
+
+                if (currentAdminResponse.status) {
+
+                    setAdmin(currentAdminResponse.data.admin);
+
+                }
+
+            } catch (err) {
+
+                setIsLoggedIn(false);
+
+            }
+
+        };
+
+        validateLogin();
+
+        setIsRefresh(false);
+
+    }, [isRefresh]);
+
+    /* -------------------- End Current Admin -------------------- */
+
+
+    /* -------------------- Logout Account -------------------- */
+
+    const onLogout = () => {
+
+        localStorage.removeItem('token');
+
+        navigate("/login");
+
+    }
+
+    /* -------------------- End Logout Account -------------------- */
+
+    return isLoggedIn ? (
 
         <Navbar className="navbar" expand="lg" fixed="top">
             <Container>
@@ -47,12 +111,12 @@ const NavbarGeneral = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
                         <Nav.Link className="nav-item">
-                            <i class="bi bi-speedometer"></i>
+                            <i className="bi bi-speedometer"></i>
                             Dashboard
                         </Nav.Link>
                         <NavDropdown className="nav-dropdown-master" title={
                             <span>
-                                <i class="bi bi-database-add"></i>
+                                <i className="bi bi-database-add"></i>
                                 Master Data
                             </span>
                         } id="basic-nav-dropdown">
@@ -64,20 +128,20 @@ const NavbarGeneral = () => {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link className="nav-item">
-                            <i class="bi bi-cart-check"></i>
+                            <i className="bi bi-cart-check"></i>
                             Selling
                         </Nav.Link>
                         <Nav.Link className="nav-profile">
                             <div className="profile-admin">
                                 <Image className="stand-line-navbar" src={StandLineNavbar} />
                                 <Image className="profile-admin-image" src={ProfileAdminImage} />
-                                John Doe
+                                {admin.name}
                             </div>
                         </Nav.Link>
                         <Nav.Link className="nav-button">
-                            <div className="btn-logout">
+                            <Button className="btn-logout" onClick={onLogout}>
                                 Logout
-                            </div>
+                            </Button>
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
@@ -156,7 +220,7 @@ const NavbarGeneral = () => {
             </Container>
         </Navbar>
 
-    );
+    ) : ( navigate("/login") );
 
 };
 

@@ -69,6 +69,7 @@ body{
     border-radius: 8px;
     color: #FFFFFF;
     font-size: 500;
+    border: none;
 }
 
 .nav-item:hover{
@@ -200,3 +201,152 @@ body{
 }
 
 /* ---------- End Card Result Content  ---------- */
+
+
+/* ---------- Login Content  ---------- */
+
+.warehouse-row-login{
+    height: 100vh;
+}
+
+.warehouse-col-login{
+    margin: auto 0;
+    position: relative;
+}
+
+.warehouse-col-login h2{
+    font-weight: 700;
+}
+
+.warehouse-col-login p{
+    font-weight: 500;
+}
+
+.warehouse-col-login img{
+    width: 32px;
+    margin: auto 0;
+}
+
+.warehouse-col-login .warehouse-form-login{
+    margin: 4% 0 0;
+    width: 90%;
+}
+
+.warehouse-col-login .form-label{
+    font-weight: 500;
+}
+
+.warehouse-col-login .warehouse-form-email,
+.warehouse-col-login .warehouse-form-password{
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+.warehouse-col-login .warehouse-content-link-register .warehouse-content-hyperlink{
+    text-decoration: none;
+}
+
+.warehouse-col-login .warehouse-content-link-register .warehouse-content-hyperlink:hover{
+    text-decoration: none;
+}
+
+.warehouse-col-login .warehouse-content-link-register p{
+    color: #01162F;
+    font-weight: 500;
+    padding: 2% 0;
+}
+
+.warehouse-col-login .warehouse-content-loggedin button{
+    margin: 0;
+    width: 90%;
+    height: 48px;
+    background: #01162F;
+    border-radius: 10px;
+}
+
+.warehouse-col-login .warehouse-content-loggedin p{
+    margin: auto 0;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.warehouse-login-image img{
+    position: absolute;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    width: 48%;
+}
+
+/* ---------- End Login Content  ---------- */
+
+
+/* ---------- Register Content  ---------- */
+
+.warehouse-row-register{
+    height: 112vh;
+}
+
+.warehouse-col-register{
+    margin: auto 0;
+    position: relative;
+}
+
+.warehouse-col-register h2{
+    font-weight: 700;
+}
+
+.warehouse-col-register p{
+    font-weight: 500;
+}
+
+.warehouse-col-register img{
+    width: 32px;
+    margin: auto 0;
+}
+
+.warehouse-col-register .warehouse-form-login{
+    margin: 4% 0 0;
+    width: 90%;
+}
+
+.warehouse-col-register .form-label{
+    font-weight: 500;
+}
+
+.warehouse-col-register .warehouse-form-name,
+.warehouse-col-register .warehouse-form-phone-number,
+.warehouse-col-register .warehouse-form-city,
+.warehouse-col-register .warehouse-form-role,
+.warehouse-col-register .warehouse-form-email,
+.warehouse-col-register .warehouse-form-password,
+.warehouse-col-register .warehouse-form-confirm-password{
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #000000;
+}
+
+.warehouse-col-register .warehouse-content-loggedin button{
+    margin: 4% 0 0;
+    width: 80%;
+    height: 48px;
+    background: #01162F;
+    border-radius: 10px;
+}
+
+.warehouse-col-register .warehouse-content-loggedin p{
+    margin: auto 0;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+.warehouse-col-register-image img{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 120vh;
+    width: 46%;
+}
+
+/* ---------- End Register Content  ---------- */
