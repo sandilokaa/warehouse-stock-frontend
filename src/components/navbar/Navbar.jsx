@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     Container,
     Nav,
@@ -15,8 +15,17 @@ import ProfileAdminImage from "../../assets/images/undraw_profile_2.svg";
 import StandLineNavbar from "../../assets/images/stand-line-navbar.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 
 const NavbarGeneral = () => {
+
+    /* -------------------- Global Variable -------------------- */
+
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
+
+    /* -------------------- Global Variable -------------------- */
+
 
     /* -------------------- Form Category -------------------- */
 
@@ -39,8 +48,6 @@ const NavbarGeneral = () => {
 
 
     /* -------------------- Current Admin -------------------- */
-
-    const navigate = useNavigate();
 
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [admin, setAdmin] = useState({});
@@ -96,9 +103,151 @@ const NavbarGeneral = () => {
 
         navigate("/login");
 
-    }
+    };
 
     /* -------------------- End Logout Account -------------------- */
+
+
+    /* -------------------- Get Category -------------------- */
+
+    const [category, setCategory] = useState([]);
+
+    useEffect(() => {
+
+        const categoriesData = async () => {
+
+            const token = localStorage.getItem("token");
+
+            const categoriesDataRequest = await axios.get(
+                `http://localhost:2000/v1/category/search`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const getCategory = await categoriesDataRequest.data.data.get_all_category;
+
+            setCategory(getCategory);
+        };
+
+        categoriesData();
+
+    }, []);
+
+    /* -------------------- End Get Category -------------------- */
+
+
+    /* -------------------- Create Category -------------------- */
+
+    const categoryField = useRef();
+
+    const onCreateCategory = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const adminToCreateCategoryPayload = {
+                categoryName: categoryField.current.value
+            };
+
+            const createCategoryRequest = await axios.post(
+                `http://localhost:2000/v1/category/create`,
+                adminToCreateCategoryPayload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const createCategoryResponse = createCategoryRequest.data;
+
+            enqueueSnackbar(createCategoryResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            if (createCategoryResponse.status) {
+
+                handleCloseFormCategory();
+
+                window.location.reload("/categories-data");
+
+            }
+
+        } catch (err) {
+
+            enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+        }
+
+    };
+
+    /* -------------------- End Create Category -------------------- */
+
+
+    /* -------------------- Create Product -------------------- */
+
+    const nameField = useRef();
+    const lengthField = useRef();
+    const stockField = useRef();
+    const priceField = useRef();
+
+    const [selectedCategory, setSelectedCategory] = useState('');
+
+    const handleSelectCategoryChange = (e) => {
+
+        const selectedCategoryValue = e.target.value;
+
+        setSelectedCategory(selectedCategoryValue);
+
+    };
+
+    const onCreateProduct = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const adminToCreateProductPayload = {
+                name: nameField.current.value,
+                length: lengthField.current.value,
+                stock: stockField.current.value,
+                price: priceField.current.value,
+                categoryId: selectedCategory
+            };
+
+            const createProductRequest = await axios.post(
+                `http://localhost:2000/v1/products/create`,
+                adminToCreateProductPayload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const createProductResponse = createProductRequest.data;
+
+            enqueueSnackbar(createProductResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            if (createProductResponse.status) {
+
+                handleCloseFormProduct();
+
+                window.location.reload("/products-data");
+
+            }
+
+        } catch (err) {
+
+            enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+        }
+
+    };
+
+    /* -------------------- End Create Product -------------------- */
 
     return isLoggedIn ? (
 
@@ -156,7 +305,7 @@ const NavbarGeneral = () => {
                         <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Category</Form.Label>
-                                <Form.Control type="text" placeholder="Add your category" />
+                                <Form.Control type="text" placeholder="Add your category" ref={categoryField} autoComplete="off" />
                             </Form.Group>
                         </Form>
                     </Modal.Body>
@@ -164,7 +313,7 @@ const NavbarGeneral = () => {
                         <Button variant="secondary" onClick={handleCloseFormCategory}>
                             Close
                         </Button>
-                        <Button variant="success" onClick={handleCloseFormCategory}>
+                        <Button variant="success" onClick={onCreateCategory}>
                             Submit
                         </Button>
                     </Modal.Footer>
@@ -173,7 +322,7 @@ const NavbarGeneral = () => {
                 {/* ----------------- End Modal Form Category ----------------- */}
 
 
-                {/* ----------------- Modal Form Category ----------------- */}
+                {/* ----------------- Modal Form Product ----------------- */}
 
                 <Modal show={showFormProduct} onHide={handleCloseFormProduct} aria-labelledby="contained-modal-title-vcenter" centered>
                     <Modal.Header closeButton>
@@ -183,25 +332,25 @@ const NavbarGeneral = () => {
                         <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control type="text" placeholder="Example: Kanopi" />
+                                <Form.Control type="text" placeholder="Example: Kanopi" autoComplete="off" ref={nameField} />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Length</Form.Label>
-                                <Form.Control type="text" placeholder="Example: 8" />
+                                <Form.Control type="number" placeholder="Example: 8" autoComplete="off" ref={lengthField} />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Stock</Form.Label>
-                                <Form.Control type="text" placeholder="Example: 10" />
+                                <Form.Control type="number" placeholder="Example: 10" autoComplete="off" ref={stockField} />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Price</Form.Label>
-                                <Form.Control type="text" placeholder="Example: 30000" />
+                                <Form.Control type="number" placeholder="Example: 30000" autoComplete="off" ref={priceField} />
                             </Form.Group>
-                            <Form.Select aria-label="Default select example">
+                            <Form.Select aria-label="Default select example" onChange={handleSelectCategoryChange} value={selectedCategory}>
                                 <option>Category</option>
-                                <option value="1">Baja Ringan Hollow</option>
-                                <option value="2">Baja Ringan Reng</option>
-                                <option value="3">Baja Ringan Bondek</option>
+                                {category.map((data) =>
+                                    <option value={data.id} key={data.id}>{data.categoryName}</option>
+                                )}
                             </Form.Select>
                         </Form>
                     </Modal.Body>
@@ -209,18 +358,18 @@ const NavbarGeneral = () => {
                         <Button variant="secondary" onClick={handleCloseFormProduct}>
                             Close
                         </Button>
-                        <Button variant="success" onClick={handleCloseFormProduct}>
+                        <Button variant="success" onClick={onCreateProduct}>
                             Submit
                         </Button>
                     </Modal.Footer>
                 </Modal>
 
-                {/* ----------------- End Modal Form Category ----------------- */}
+                {/* ----------------- End Modal Form Product ----------------- */}
 
             </Container>
         </Navbar>
 
-    ) : ( navigate("/login") );
+    ) : (navigate("/login"));
 
 };
 

@@ -89,7 +89,7 @@ body{
 
 #header-warehouse-content {
     margin: 0;
-    height: 70vh;
+    height: 68vh;
     background-color: #01162F;
 }
 
@@ -350,3 +350,35 @@ body{
 }
 
 /* ---------- End Register Content  ---------- */
+
+
+/* ---------- Categories Table Content  ---------- */
+
+.warehouse-categories-table {
+    margin: 4% 0 6%;
+    text-align: center;
+    border: #01162F;
+}
+
+.warehouse-categories-table i{
+    margin: 0 4% 0;
+    font-size: 20px;
+}
+
+.warehouse-categories-table .bi-trash{
+    padding: 1% 2%;
+    background-color: #B31312;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.warehouse-categories-table .bi-pencil-square{
+    padding: 1% 2%;
+    background-color: #0078FD;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ---------- End Categories Table Content  ---------- */
