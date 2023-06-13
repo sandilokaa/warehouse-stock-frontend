@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
 
     const navigate = useNavigate();
+
+    /* -------------------- Get Current Login -------------------- */
     
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [admin, setAdmin] = useState({});
@@ -60,6 +62,40 @@ const Home = () => {
 
     }, [isRefresh]);
 
+    /* -------------------- Get Current Login -------------------- */
+
+
+    /* -------------------- Get Product -------------------- */
+
+    const [productData, setProductData] = useState([]);
+
+    useEffect(() => {
+
+        const productsData = async () => {
+
+            const token = localStorage.getItem("token");
+
+            const productsDataRequest = await axios.get(
+                `http://localhost:2000/v1/products/search`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const getProduct = await productsDataRequest.data.data.get_all_product;
+
+            setProductData(getProduct);
+        };
+
+        productsData();
+
+    }, []);
+
+    /* -------------------- End Get Product -------------------- */
+
+
     return isLoggedIn ? (
 
         <HomeLayout>
@@ -71,7 +107,7 @@ const Home = () => {
                     <div className="card-result-total">
                         <Row className="row-result-total">
                             <Col className="col-12 col-lg-4 mt-3">
-                                <Card>
+                                <Card className="card-total-products">
                                     <Card.Body>
                                         <Card.Title>
                                             <Row>
@@ -84,8 +120,7 @@ const Home = () => {
                                             </Row>
                                         </Card.Title>
                                         <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
+                                            {productData.length} Products
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -104,8 +139,7 @@ const Home = () => {
                                             </Row>
                                         </Card.Title>
                                         <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
+                                            Some quick
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -124,8 +158,7 @@ const Home = () => {
                                             </Row>
                                         </Card.Title>
                                         <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
+                                            Some quick
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>

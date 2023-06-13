@@ -7,7 +7,7 @@
 }
 
 body{
-    background-color: #F5F5F5;
+    background-color: #FFFFFF;
 }
 
 /* ---------- Navbar ---------- */
@@ -89,19 +89,17 @@ body{
 
 #header-warehouse-content {
     margin: 0;
-    height: 68vh;
-    background-color: #01162F;
 }
 
 #header-warehouse-content .header-warehouse-greetings h1{
-    margin: 10% 0 0;
+    margin: 14% 0 0;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #000000;
 }
 
 #header-warehouse-content .header-warehouse-greetings p{
     margin: 1% 0;
-    color: #FFFFFF;
+    color: #000000;
 }
 
 #header-warehouse-content .header-choose-analytics{
@@ -114,15 +112,15 @@ body{
     height: 100%;
     background-color: transparent;
     border: none;
-    color: #FFFFFF;
+    color: #000000;
     font-weight: 600;
     border-radius: 30px;
     transition: 0.2s all ease-in-out;
 }
 
 .header-choose-analytics .active{
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #FFFFFF;
+    background-color: #01162F;
+    border: 1px solid #000000;
     width: 100%;
     height: 100%;
     padding: 10px 25px;
@@ -133,14 +131,15 @@ body{
 }
 
 .header-choose-analytics .btn-choose-analytics:hover{
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #FFFFFF;
+    background-color: #01162F;
+    border: 1px solid #000000;
+    color: #FFFFFF;
 }
 
 #header-warehouse-content hr{
     margin: 2% 0 4%;
-    color: #FFFFFF;
-    border: #FFFFFF solid 1px;
+    color: #000000;
+    border: #000000 solid 1px;
 }
 
 /* ---------- End Header Content ---------- */
@@ -153,7 +152,7 @@ body{
 }
 
 .card-result-total{
-    margin: -8% 0 0;
+    margin: 0;
 }
 
 .card-result-total .card{
@@ -167,7 +166,9 @@ body{
 }
 
 .card-result-total .card-text{
-    margin: 30px 0 0;
+    font-weight: 700;
+    margin: 16% 0 0;
+    font-size: 32px;
 }
 
 .card-result-total .bi-shop{
@@ -382,3 +383,40 @@ body{
 }
 
 /* ---------- End Categories Table Content  ---------- */
+
+
+/* ---------- Products Table Content  ---------- */
+
+#button-addon2{
+    background-color: #01162F;
+    border: none;
+}
+
+.warehouse-products-table {
+    margin: 4% 0 6%;
+    text-align: center;
+    border: #01162F;
+}
+
+.warehouse-products-table i{
+    margin: 0 4% 0;
+    font-size: 20px;
+}
+
+.warehouse-products-table .bi-trash{
+    padding: 1% 2%;
+    background-color: #B31312;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.warehouse-products-table .bi-pencil-square{
+    padding: 1% 2%;
+    background-color: #0078FD;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ---------- End Products Table Content  ---------- */
