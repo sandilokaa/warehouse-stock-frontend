@@ -55,56 +55,12 @@ const CategoriesData = () => {
     /* -------------------- Get Category -------------------- */
 
 
-    /* -------------------- Get Id Category -------------------- */
-
-    const fetchIdFromTable = async () => {
-
-        try {
-
-            const token = localStorage.getItem("token");
-
-            const response = await axios.get(
-                'http://localhost:2000/v1/category/search',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Access-Control-Allow-Origin": "*"
-                    },
-                }
-            );
-
-            const id = response.data.data.get_all_category[0].id;
-
-            console.log(id)
-
-            return id;
-
-        } catch (error) {
-
-            console.log('Error fetching ID:', error);
-
-            return null;
-
-        }
-
-    };
-
-    /* -------------------- End Get Id Category -------------------- */
-
-
     /* -------------------- Delete Category -------------------- */
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const [showFormCategory, setShowFormCategory] = useState(false);
+    const onDeleteCategoryById = async (id) => {
 
-    const handleCloseFormCategory = () => setShowFormCategory(false);
-    const handleShowFormCategory = () => setShowFormCategory(true);
-
-
-    const onDeleteCategoryById = async () => {
-
-        const id = await fetchIdFromTable();
         const token = localStorage.getItem("token");
 
         try {
@@ -123,8 +79,6 @@ const CategoriesData = () => {
             enqueueSnackbar(deletedCategoryResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
 
             if (deletedCategoryResponse.status) {
-
-                handleCloseFormCategory();
 
                 window.location.reload("/categories-data")
 
@@ -177,34 +131,13 @@ const CategoriesData = () => {
                                 <td>{category.id}</td>
                                 <td>{category.categoryName}</td>
                                 <td>
-                                    <i className="bi bi-trash" onClick={handleShowFormCategory}></i>
+                                    <i className="bi bi-trash" onClick={() => onDeleteCategoryById(category.id)}></i>
                                     <i className="bi bi-pencil-square"></i>
                                 </td>
                             </tr>
                         </tbody>
                     )}
                 </Table>
-
-                {/* ----------------- Modal Form Category ----------------- */}
-
-                <Modal show={showFormCategory} onHide={handleCloseFormCategory} aria-labelledby="contained-modal-title-vcenter" centered>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Delete Category</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <p>Yakin untuk menghapus category ini?</p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseFormCategory}>
-                            Close
-                        </Button>
-                        <Button variant="danger" onClick={onDeleteCategoryById}>
-                            Submit
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
-                {/* ----------------- End Modal Form Category ----------------- */}
 
             </Container>
 

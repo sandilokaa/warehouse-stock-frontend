@@ -18,6 +18,37 @@ import { useSnackbar } from 'notistack';
 
 const ProductsData = () => {
 
+    /* -------------------- Get Category -------------------- */
+
+    const [category, setCategory] = useState([]);
+
+    useEffect(() => {
+
+        const categoriesData = async () => {
+
+            const token = localStorage.getItem("token");
+
+            const categoriesDataRequest = await axios.get(
+                `http://localhost:2000/v1/category/search`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const getCategory = await categoriesDataRequest.data.data.get_all_category;
+
+            setCategory(getCategory);
+        };
+
+        categoriesData();
+
+    }, []);
+
+    /* -------------------- End Get Category -------------------- */
+
+
     /* -------------------- Get Product -------------------- */
 
     const [productData, setProductData] = useState([]);
@@ -55,54 +86,12 @@ const ProductsData = () => {
     /* -------------------- End Get Product -------------------- */
 
 
-    /* -------------------- Get Id Product -------------------- */
-
-    const fetchIdFromTable = async () => {
-
-        try {
-
-            const token = localStorage.getItem("token");
-
-            const response = await axios.get(
-                'http://localhost:2000/v1/products/search',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Access-Control-Allow-Origin": "*"
-                    },
-                }
-            );
-
-            const id = response.data.data.get_all_product[0].id;
-
-            return id;
-
-        } catch (error) {
-
-            console.log('Error fetching ID:', error);
-
-            return null;
-
-        }
-
-    };
-
-    /* -------------------- End Get Id Product -------------------- */
-
-
     /* -------------------- Delete Product By Id -------------------- */
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const [showFormProduct, setShowFormProduct] = useState(false);
+    const onDeleteProductById = async (id) => {
 
-    const handleCloseFormProduct = () => setShowFormProduct(false);
-    const handleShowFormProduct = () => setShowFormProduct(true);
-
-
-    const onDeleteProductById = async () => {
-
-        const id = await fetchIdFromTable();
         const token = localStorage.getItem("token");
 
         try {
@@ -122,8 +111,6 @@ const ProductsData = () => {
 
             if (deletedProductsResponse.status) {
 
-                handleCloseFormProduct();
-
                 window.location.reload("/products-data")
 
             }
@@ -137,6 +124,44 @@ const ProductsData = () => {
     };
 
     /* -------------------- End Delete Product By Id -------------------- */
+
+
+    /* -------------------- Get Product By Id -------------------- */
+
+    const [showFormProduct, setShowFormProduct] = useState(false);
+
+    const handleCloseFormProduct = () => setShowFormProduct(false);
+    const handleShowFormProduct = (id) => setShowFormProduct(true);
+
+    // const [productDataById, setProductDataById] = useState([]);
+
+    // const onGetProductById = async (id) => {
+
+    //     const token = localStorage.getItem("token");
+
+    //     const productsDataRequest = await axios.get(
+    //         `http://localhost:2000/v1/products/${id}`,
+    //         {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //                 "Access-Control-Allow-Origin": "*"
+    //             },
+    //         }
+    //     );
+
+    //     const getProduct = await productsDataRequest.data.data.get_all_product;
+
+    //     setProductDataById(getProduct);
+    // };
+
+    // useEffect(() => {
+
+    //     onGetProductById();
+
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+
+    /* -------------------- End Get Product By Id -------------------- */
 
 
     return (
@@ -184,8 +209,8 @@ const ProductsData = () => {
                                 <td>{product.stock} pcs</td>
                                 <td>{CurrencyFormatter(product.price)}</td>
                                 <td>
-                                    <i className="bi bi-trash" onClick={handleShowFormProduct}></i>
-                                    <i className="bi bi-pencil-square"></i>
+                                    <i className="bi bi-trash" onClick={() => onDeleteProductById(product.id)}></i>
+                                    <i className="bi bi-pencil-square" onClick={() => handleShowFormProduct(product.id)}></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -193,26 +218,49 @@ const ProductsData = () => {
                 </Table>
 
 
-                {/* ----------------- Modal Form Products ----------------- */}
+                {/* ----------------- Modal Form Product ----------------- */}
 
                 <Modal show={showFormProduct} onHide={handleCloseFormProduct} aria-labelledby="contained-modal-title-vcenter" centered>
                     <Modal.Header closeButton>
-                        <Modal.Title>Delete Product</Modal.Title>
+                        <Modal.Title>Form Product</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Yakin untuk menghapus product ini?</p>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control type="text" autoComplete="off"  />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Length</Form.Label>
+                                <Form.Control type="number" autoComplete="off" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Stock</Form.Label>
+                                <Form.Control type="number" autoComplete="off" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control type="number" autoComplete="off" />
+                            </Form.Group>
+                            <Form.Select aria-label="Default select example">
+                                <option>Category</option>
+                                {category.map((data) =>
+                                    <option value={data.id} key={data.id}>{data.categoryName}</option>
+                                )}
+                            </Form.Select>
+                        </Form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseFormProduct}>
                             Close
                         </Button>
-                        <Button variant="danger" onClick={onDeleteProductById}>
+                        <Button variant="success">
                             Submit
                         </Button>
                     </Modal.Footer>
                 </Modal>
 
-                {/* ----------------- End Modal Form Products ----------------- */}
+                {/* ----------------- End Modal Form Product ----------------- */}
 
             </Container>
 
