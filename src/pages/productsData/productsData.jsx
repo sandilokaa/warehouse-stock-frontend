@@ -152,8 +152,6 @@ const ProductsData = () => {
 
         const getProductByIdResponse = await productsDataRequest.data;
 
-        console.log(getProductByIdResponse.data.product_by_id);
-
         setProductDataById(getProductByIdResponse.data.product_by_id);
 
         setShowFormProduct(true);
@@ -270,10 +268,10 @@ const ProductsData = () => {
                             <th>Action</th>
                         </tr>
                     </thead>
-                    {productData.map((product) =>
+                    {productData.map((product, index) =>
                         <tbody key={product.id}>
                             <tr>
-                                <td>{product.id}</td>
+                                <td>{index + 1}</td>
                                 <td>{product.name}</td>
                                 <td>{product.category.categoryName}</td>
                                 <td>{product.length} m</td>
