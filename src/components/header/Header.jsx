@@ -99,6 +99,9 @@ const HeaderGeneral = () => {
                             <Col className="col-4 col-lg-2">
                                 <Button className={splitLocation[1] === "sellings-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/sellings-data`)}> Selling </Button>
                             </Col>
+                            <Col className="col-4 col-lg-2">
+                                <Button className={splitLocation[1] === "reports-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/reports-data`)}> Report </Button>
+                            </Col>
                         </Row>
                     </div>
                     <hr />

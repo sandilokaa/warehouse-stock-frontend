@@ -1,5 +1,6 @@
 import React from "react";
 import NavbarGeneral from "../../components/navbar/Navbar";
+import FooterGeneral from "../../components/footer/Footer";
 import HeaderGeneral from "../../components/header/Header";
 
 const HomeLayout = ({ children }) => {
@@ -14,9 +15,9 @@ const HomeLayout = ({ children }) => {
             <div>
                 {children}
             </div>
-            {/* <div>
+            <div>
                 <FooterGeneral />
-            </div> */}
+            </div>
         </>
     );
 };

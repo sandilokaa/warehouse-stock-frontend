@@ -9,6 +9,7 @@ import SellingsData from "./pages/sellingsData/sellingsData";
 import CategoriesData from "./pages/categoriesData/categoriesData";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import ReportData from "./pages/reportsData/reportsData";
 import { SnackbarProvider } from 'notistack';
 
 const roots = document.getElementById('root');
@@ -22,6 +23,7 @@ root.render(
                 <Route path="/products-data" element={<ProductsData />}></Route>
                 <Route path="/categories-data" element={<CategoriesData />}></Route>
                 <Route path="/sellings-data" element={<SellingsData />}></Route>
+                <Route path="/reports-data" element={<SellingsData />}></Route>
                 <Route path="/login" element={<Login />}></Route> 
                 <Route path="/register" element={<Register />}></Route> 
             </Routes>

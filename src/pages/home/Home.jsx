@@ -3,22 +3,21 @@ import {
     Row,
     Col,
     Container,
-    Image,
-    Button,
     Card
 } from "react-bootstrap";
 import HomeLayout from "../../layouts/home/HomeLayout";
 import "../../assets/css/style.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Chart from 'chart.js/auto';
+import MapWrapped from "../../components/map/mapWrapped";
 
 const Home = () => {
 
     const navigate = useNavigate();
 
     /* -------------------- Get Current Login -------------------- */
-    
+
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [admin, setAdmin] = useState({});
     const [isRefresh, setIsRefresh] = useState(false);
@@ -96,6 +95,46 @@ const Home = () => {
     /* -------------------- End Get Product -------------------- */
 
 
+    /* -------------------- Product Diagram -------------------- */
+
+    const [chartInstance, setChartInstance] = useState(null);
+
+    useEffect(() => {
+
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        const newChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: productData.map(item => item.name),
+                datasets: [{
+                    label: 'Stok Produk',
+                    data: productData.map(item => item.stock),
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        setChartInstance(newChartInstance);
+
+    }, [productData]);
+
+    /* -------------------- End Product Diagram -------------------- */
+
+
     return isLoggedIn ? (
 
         <HomeLayout>
@@ -171,11 +210,10 @@ const Home = () => {
                                 <Card>
                                     <Card.Body>
                                         <Card.Title>
-                                            Diagram Analytics
+                                            Diagram Stok Produk
                                         </Card.Title>
                                         <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
+                                            <canvas id="myChart" width="400" height="200"></canvas>
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -184,11 +222,13 @@ const Home = () => {
                                 <Card>
                                     <Card.Body>
                                         <Card.Title>
-                                            Diagram Analytics
+                                            WarehouseHub Location
                                         </Card.Title>
-                                        <Card.Text>
-                                            Some quick example text to build on the card title and make up the
-                                            bulk of the card's content.
+                                        <Card.Text className="geo-map">
+                                            <MapWrapped
+                                                centerCoordinates={[ -6.225014, 106.900447]}
+                                                coordinatesPosition={[ -6.225014, 106.900447]}
+                                            />
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -202,7 +242,7 @@ const Home = () => {
 
         </HomeLayout>
 
-    ) : ( navigate("/login") );
+    ) : (navigate("/login"));
 
 };
 

@@ -204,6 +204,17 @@ body{
 /* ---------- End Card Result Content  ---------- */
 
 
+/* ---------- Location Content  ---------- */
+
+.geo-map{
+    margin: 6% 0 0;
+    height: 90%;
+    width: 100%;
+}
+
+/* ---------- End Location Content  ---------- */
+
+
 /* ---------- Login Content  ---------- */
 
 .warehouse-row-login{
