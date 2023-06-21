@@ -37,14 +37,24 @@ const NavbarGeneral = () => {
     /* -------------------- End Form Category -------------------- */
 
 
-    /* -------------------- Form Product -------------------- */
+    /* -------------------- Form Create Product -------------------- */
 
     const [showFormProduct, setShowFormProduct] = useState(false);
 
     const handleCloseFormProduct = () => setShowFormProduct(false);
     const handleShowFormProduct = () => setShowFormProduct(true);
 
-    /* -------------------- End Form Category -------------------- */
+    /* -------------------- End Form Create Product -------------------- */
+
+
+    /* -------------------- Form Create Product Sale -------------------- */
+
+    const [showFormProductSale, setShowFormProductSale] = useState(false);
+
+    const handleCloseFormProductSale = () => setShowFormProductSale(false);
+    const handleShowFormProductSale = () => setShowFormProductSale(true);
+
+    /* -------------------- End Form Create Product Sale -------------------- */
 
 
     /* -------------------- Current Admin -------------------- */
@@ -249,6 +259,126 @@ const NavbarGeneral = () => {
 
     /* -------------------- End Create Product -------------------- */
 
+
+    /* -------------------- Get Product -------------------- */
+
+    const [productData, setProductData] = useState([]);
+
+    useEffect(() => {
+
+        const productsData = async () => {
+
+            const token = localStorage.getItem("token");
+
+            const productsDataRequest = await axios.get(
+                `http://localhost:2000/v1/products/search`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const getProduct = await productsDataRequest.data.data.get_all_product;
+
+            setProductData(getProduct);
+        };
+
+        productsData();
+
+    }, []);
+
+    /* -------------------- End Get Product -------------------- */
+
+
+    /* -------------------- Create Product Sale -------------------- */
+
+    const quantityField = useRef();
+    const salesDateField = useRef();
+
+    const [selectedProduct, setSelectedProduct] = useState('');
+
+    const handleSelectProductChange = (e) => {
+
+        const selectedProductValue = e.target.value;
+
+        setSelectedProduct(selectedProductValue);
+
+    };
+
+    const [transactionCode, setTransactionCode] = useState('');
+
+    function generateTransactionCode(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let code = 'DNO';
+
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            code += characters.charAt(randomIndex);
+        }
+
+        return code;
+    }
+
+    useEffect(() => {
+
+        const generatedCode = generateTransactionCode(8);
+        
+        setTransactionCode(generatedCode);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const onCreateProductSale = async () => {
+
+        try {
+
+            const token = localStorage.getItem("token");
+
+            const adminToCreateProductSalePayload = {
+                productId: selectedProduct,
+                transactionCode: transactionCode,
+                quantity: quantityField.current.value,
+                salesDate: salesDateField.current.value
+            };
+
+            console.log(adminToCreateProductSalePayload);
+
+            const createProductSaleRequest = await axios.post(
+                `http://localhost:2000/v1/sales/create`,
+                adminToCreateProductSalePayload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const createProductSaleResponse = createProductSaleRequest.data;
+
+            enqueueSnackbar(createProductSaleResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+            if (createProductSaleResponse.status) {
+
+                handleCloseFormProductSale();
+
+                window.location.reload("/sales-data");
+
+            }
+
+        } catch (err) {
+
+            enqueueSnackbar(err.message, { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+
+        }
+
+    };
+
+
+
+    /* -------------------- End Create Product Sale -------------------- */
+
+
     return isLoggedIn ? (
 
         <Navbar className="navbar" expand="lg" fixed="top">
@@ -276,9 +406,9 @@ const NavbarGeneral = () => {
                                 Add Product
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link className="nav-item">
+                        <Nav.Link className="nav-item" onClick={handleShowFormProductSale}>
                             <i className="bi bi-cart-check"></i>
-                            Selling
+                            Sale
                         </Nav.Link>
                         <Nav.Link className="nav-profile">
                             <div className="profile-admin">
@@ -322,7 +452,7 @@ const NavbarGeneral = () => {
                 {/* ----------------- End Modal Form Category ----------------- */}
 
 
-                {/* ----------------- Modal Form Product ----------------- */}
+                {/* ----------------- Modal Form Create Product ----------------- */}
 
                 <Modal show={showFormProduct} onHide={handleCloseFormProduct} aria-labelledby="contained-modal-title-vcenter" centered>
                     <Modal.Header closeButton>
@@ -358,13 +488,56 @@ const NavbarGeneral = () => {
                         <Button variant="secondary" onClick={handleCloseFormProduct}>
                             Close
                         </Button>
+                        <Button variant="success" onClick={onCreateProductSale}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
+                {/* ----------------- End Modal Form Create Product ----------------- */}
+
+
+                {/* ----------------- Modal Form Create Product Sale ----------------- */}
+
+                <Modal show={showFormProductSale} onHide={handleCloseFormProductSale} aria-labelledby="contained-modal-title-vcenter" centered>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Form Product Sale</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Product</Form.Label>
+                                <Form.Select className="mb-3" aria-label="Default select example" onChange={handleSelectProductChange} value={selectedProduct}>
+                                    {productData.map((data) =>
+                                        <option value={data.id} key={data.id}>{data.name}</option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Transaction Code</Form.Label>
+                                <Form.Control type="text" value={transactionCode} readOnly />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Quantity</Form.Label>
+                                <Form.Control type="number" placeholder="Example: 8" autoComplete="off" ref={quantityField} />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Sale Date</Form.Label>
+                                <Form.Control type="date" autoComplete="off" ref={salesDateField} />
+                            </Form.Group>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseFormProduct}>
+                            Close
+                        </Button>
                         <Button variant="success" onClick={onCreateProduct}>
                             Submit
                         </Button>
                     </Modal.Footer>
                 </Modal>
 
-                {/* ----------------- End Modal Form Product ----------------- */}
+                {/* ----------------- End Modal Form Create Product Sale ----------------- */}
 
             </Container>
         </Navbar>

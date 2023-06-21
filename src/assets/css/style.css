@@ -215,6 +215,32 @@ body{
 /* ---------- End Location Content  ---------- */
 
 
+/* ---------- Report Content  ---------- */
+
+.report-card{
+    margin: 0 0 4% 0;
+}
+
+.card-download-report .card{
+    width: 100%;
+    height: 100%;
+}
+
+.card-download-report .card .card-title{
+    font-weight: 600;
+}
+
+.card-download-report .card .btn-download {
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #01162F;
+    border: none;
+    width: 100%;
+}
+
+/* ---------- End Report Content  ---------- */
+
+
 /* ---------- Login Content  ---------- */
 
 .warehouse-row-login{
@@ -431,3 +457,35 @@ body{
 }
 
 /* ---------- End Products Table Content  ---------- */
+
+
+/* ---------- Products Sale Table Content  ---------- */
+
+.warehouse-product-sale-table {
+    margin: 4% 0 6%;
+    text-align: center;
+    border: #01162F;
+}
+
+.warehouse-product-sale-table i{
+    margin: 0 4% 0;
+    font-size: 20px;
+}
+
+.warehouse-product-sale-table .bi-info-circle{
+    padding: 1% 2%;
+    background-color: #0078FD;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.warehouse-product-sale-table .bi-filetype-pdf{
+    padding: 1% 2%;
+    background-color: #B31312;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ---------- End Products Sale Table Content  ---------- */
