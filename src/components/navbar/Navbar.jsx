@@ -294,7 +294,6 @@ const NavbarGeneral = () => {
     /* -------------------- Create Product Sale -------------------- */
 
     const quantityField = useRef();
-    const salesDateField = useRef();
 
     const [selectedProduct, setSelectedProduct] = useState('');
 
@@ -303,6 +302,16 @@ const NavbarGeneral = () => {
         const selectedProductValue = e.target.value;
 
         setSelectedProduct(selectedProductValue);
+
+    };
+
+    const [selectedDate, setSelectedDate] = useState('');
+
+    const handleDateChange = (e) => {
+
+        const selectedDateValue = e.target.value;
+
+        setSelectedDate(selectedDateValue);
 
     };
 
@@ -323,7 +332,7 @@ const NavbarGeneral = () => {
     useEffect(() => {
 
         const generatedCode = generateTransactionCode(8);
-        
+
         setTransactionCode(generatedCode);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -339,10 +348,8 @@ const NavbarGeneral = () => {
                 productId: selectedProduct,
                 transactionCode: transactionCode,
                 quantity: quantityField.current.value,
-                salesDate: salesDateField.current.value
+                salesDate: selectedDate
             };
-
-            console.log(adminToCreateProductSalePayload);
 
             const createProductSaleRequest = await axios.post(
                 `http://localhost:2000/v1/sales/create`,
@@ -350,6 +357,7 @@ const NavbarGeneral = () => {
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*"
                     },
                 }
             );
@@ -508,6 +516,7 @@ const NavbarGeneral = () => {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Product</Form.Label>
                                 <Form.Select className="mb-3" aria-label="Default select example" onChange={handleSelectProductChange} value={selectedProduct}>
+                                    <option>Product</option>
                                     {productData.map((data) =>
                                         <option value={data.id} key={data.id}>{data.name}</option>
                                     )}
@@ -523,7 +532,7 @@ const NavbarGeneral = () => {
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Sale Date</Form.Label>
-                                <Form.Control type="date" autoComplete="off" ref={salesDateField} />
+                                <Form.Control type="date" autoComplete="off" value={selectedDate} onChange={handleDateChange} />
                             </Form.Group>
                         </Form>
                     </Modal.Body>
@@ -531,7 +540,7 @@ const NavbarGeneral = () => {
                         <Button variant="secondary" onClick={handleCloseFormProduct}>
                             Close
                         </Button>
-                        <Button variant="success" onClick={onCreateProduct}>
+                        <Button variant="success" onClick={onCreateProductSale}>
                             Submit
                         </Button>
                     </Modal.Footer>
