@@ -496,7 +496,7 @@ const NavbarGeneral = () => {
                         <Button variant="secondary" onClick={handleCloseFormProduct}>
                             Close
                         </Button>
-                        <Button variant="success" onClick={onCreateProductSale}>
+                        <Button variant="success" onClick={onCreateProduct}>
                             Submit
                         </Button>
                     </Modal.Footer>

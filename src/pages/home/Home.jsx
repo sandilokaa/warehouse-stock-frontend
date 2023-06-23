@@ -95,6 +95,72 @@ const Home = () => {
     /* -------------------- End Get Product -------------------- */
 
 
+    /* -------------------- Get Product Sale -------------------- */
+
+    const [productSaleData, setProductSaleData] = useState([]);
+
+    useEffect(() => {
+
+        const onProductSaleData = async () => {
+
+            const token = localStorage.getItem("token");
+
+            const productSaleDataRequest = await axios.get(
+                `http://localhost:2000/v1/sales/search`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                }
+            );
+
+            const getProductSale = await productSaleDataRequest.data.data.get_all_product_sale;
+
+            setProductSaleData(getProductSale);
+        };
+
+        onProductSaleData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+    /* -------------------- End Get Product Sale -------------------- */
+
+
+    /* -------------------- Get Category -------------------- */
+
+    const [category, setCategory] = useState([]);
+
+    const onSearch = async () => {
+
+        const token = localStorage.getItem("token");
+
+        const categoriesDataRequest = await axios.get(
+            `http://localhost:2000/v1/category/search`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        const getCategory = await categoriesDataRequest.data.data.get_all_category;
+
+        setCategory(getCategory);
+    };
+
+
+    useEffect(() => {
+        
+        onSearch();
+
+    }, []);
+
+    /* -------------------- End Get Category -------------------- */
+
+
     /* -------------------- Product Diagram -------------------- */
 
     const [chartInstance, setChartInstance] = useState(null);
@@ -178,7 +244,7 @@ const Home = () => {
                                             </Row>
                                         </Card.Title>
                                         <Card.Text>
-                                            Some quick
+                                            {productSaleData.length} Sales
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -189,15 +255,15 @@ const Home = () => {
                                         <Card.Title>
                                             <Row>
                                                 <Col className="col-3 col-lg-3">
-                                                    <i className="bi bi-cart-check"></i>
+                                                    <i className="bi bi-tag"></i>
                                                 </Col>
                                                 <Col className="col-9 col-lg-9">
-                                                    Total Orders
+                                                    Total Category
                                                 </Col>
                                             </Row>
                                         </Card.Title>
                                         <Card.Text>
-                                            Some quick
+                                            { category.length } Categories
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
@@ -226,8 +292,8 @@ const Home = () => {
                                         </Card.Title>
                                         <Card.Text className="geo-map">
                                             <MapWrapped
-                                                centerCoordinates={[ -6.225014, 106.900447]}
-                                                coordinatesPosition={[ -6.225014, 106.900447]}
+                                                centerCoordinates={[-6.225014, 106.900447]}
+                                                coordinatesPosition={[-6.225014, 106.900447]}
                                             />
                                         </Card.Text>
                                     </Card.Body>
