@@ -12,6 +12,9 @@ import CurrencyFormatter from "../../assets/js/currencyFormatter";
 
 const SalesData = () => {
 
+
+    /* -------------------- Get Product Sale -------------------- */
+
     const [productSaleData, setProductSaleData] = useState([]);
 
     const onSearch = async () => {
@@ -39,6 +42,8 @@ const SalesData = () => {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    /* -------------------- End Get Product Sale -------------------- */
 
     return (
 
