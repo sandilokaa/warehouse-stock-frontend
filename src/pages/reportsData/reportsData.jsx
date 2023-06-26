@@ -278,7 +278,7 @@ const ReportsData = () => {
         doc.save('product-sale-reports.pdf', { autoDownload: false });
     };
     
-    /* -------------------- End Create PDF Category Product Sale -------------------- */
+    /* -------------------- End Create PDF Product Sale -------------------- */
 
 
     return (
