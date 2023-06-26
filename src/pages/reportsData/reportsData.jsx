@@ -11,6 +11,8 @@ import "../../assets/css/style.css";
 import axios from "axios";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import CurrencyFormatter from "../../assets/js/currencyFormatter";
+
 
 const ReportsData = () => {
 
@@ -143,7 +145,7 @@ const ReportsData = () => {
             /* ------ Set Table ------ */
 
             const tableHeaders = ['No', 'Nama', 'Kategori', 'Panjang', 'Stok', 'Price'];
-            const tableData = productData.map((item, index) => [index + 1, item.name, item.category.categoryName, item.length, item.stock, item.price]);
+            const tableData = productData.map((item, index) => [index + 1, item.name, item.category.categoryName, item.length + ' m', item.stock, CurrencyFormatter(item.price)]);
             const startY = 50;
 
             doc.autoTable({
@@ -253,7 +255,7 @@ const ReportsData = () => {
             /* ------ Set Table ------ */
 
             const tableHeaders = ['No', 'Nama', 'Kategori', 'Kode Transaksi', 'Tanggal', 'Total' ];
-            const tableData = productSaleData.map((item, index) => [index + 1, item.product.name, item.product.category.categoryName, item.transactionCode, item.salesDate, item.subTotal]);
+            const tableData = productSaleData.map((item, index) => [index + 1, item.product.name, item.product.category.categoryName, item.transactionCode, item.salesDate, CurrencyFormatter(item.subTotal)]);
             const startY = 50;
 
             doc.autoTable({
