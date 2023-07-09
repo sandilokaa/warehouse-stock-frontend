@@ -44,9 +44,9 @@ const PurchasesData = () => {
             }
         );
 
-        const getProductPurchaseResponse = await productPurchaseDataRequest.data.data.get_all_product_purchase;
+        const getProductPurchaseResponse = await productPurchaseDataRequest.data;
 
-        setProductPurchaseData(getProductPurchaseResponse);
+        setProductPurchaseData(getProductPurchaseResponse.data.get_all_product_purchase);
     };
 
     useEffect(() => {
@@ -81,11 +81,11 @@ const PurchasesData = () => {
             const getProductPurchaseDataResponse = getProductPurchaseDataRequest.data.data.product_purchase_by_purchase_id;
 
             const getSubTotal = []
-            
+
             getSubTotal.push(...getProductPurchaseDataResponse.map(item => item.subTotal));
 
             const convertedSubTotal = getSubTotal.map(item => parseFloat(item));
-            
+
             const total = convertedSubTotal.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
             setAccumulateData(total)
@@ -109,8 +109,6 @@ const PurchasesData = () => {
     const createPDFToProductPurchase = async (purchaseId) => {
 
         const productPurchaseDataByPurchaseId = await handleGetProductPurchaseByPurchaseId(purchaseId);
-
-        console.log(productPurchaseDataByPurchaseId);
 
         if (productPurchaseDataByPurchaseId) {
 
@@ -139,7 +137,7 @@ const PurchasesData = () => {
             tableData.push(['No', 'Nama', 'Kategori', 'Jumlah', 'Harga Beli', 'SubTotal']);
 
             productPurchaseDataByPurchaseId.map((item, index) => {
-                return tableData.push([index + 1, item.product.name, item.product.category.categoryName, item.quantity, CurrencyFormatter(item.purchasePrice), CurrencyFormatter(item.subTotal) ]);
+                return tableData.push([index + 1, item.product.name, item.product.category.categoryName, item.quantity, CurrencyFormatter(item.purchasePrice), CurrencyFormatter(item.subTotal)]);
             });
 
             tableData.push([`Total`, ``, ``, ``, ``, `${CurrencyFormatter(accumulateData)}`]);
@@ -201,7 +199,7 @@ const PurchasesData = () => {
         return getedDataBySalesDate;
 
     };
-    
+
     const createPDFToPurchaseReport = async () => {
 
         const getedDataByPurchaseDate = await handleGetProductByPurchaseDate()
@@ -237,7 +235,7 @@ const PurchasesData = () => {
             tableData.push(['No', 'Transaction Code', 'Transaction Type', 'Supplier', 'Purchase Date', 'Total']);
 
             getedDataByPurchaseDate.map((item, index) => {
-                return tableData.push([index + 1, item.transactionCode, item.transactionType , item.supplier, item.purchaseDate ]);
+                return tableData.push([index + 1, item.transactionCode, item.transactionType, item.supplier, item.purchaseDate]);
             });
 
             const startY = 60;
@@ -268,7 +266,7 @@ const PurchasesData = () => {
     return (
 
         <HomeLayout>
-            
+
             <Container>
 
                 <Row>
@@ -323,7 +321,16 @@ const PurchasesData = () => {
                                 <td>{productPurchase.transactionCode}</td>
                                 <td>{productPurchase.transactionType}</td>
                                 <td>{productPurchase.purchaseDate}</td>
-                                <td>{CurrencyFormatter(productPurchase.price)}</td>  {/* PR COYYYYYYYYYYY */}
+                                <td>
+                                    {
+                                        CurrencyFormatter(productPurchase.purchasesProducts.reduce((total, item) => {
+                                            const purchasePrice = item.purchasePrice;
+                                            const quantity = item.quantity;
+                                            const subtotal = purchasePrice * quantity;
+                                            return total + subtotal;
+                                        }, 0))
+                                    }
+                                </td>
                                 <td>
                                     <Link to={`/purchases-data/${productPurchase.id}/detail`}>
                                         <i className="bi bi-info-circle"></i>

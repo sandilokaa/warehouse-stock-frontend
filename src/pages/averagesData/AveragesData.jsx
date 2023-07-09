@@ -34,6 +34,8 @@ const AveragesData = () => {
 
         const getProduct = await productsDataRequest.data.data.get_all_product;
 
+        // console.log(getProduct);
+
         setProductData(getProduct);
     };
 

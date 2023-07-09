@@ -26,6 +26,7 @@ const SalesData = () => {
     /* -------------------- Get Product Sale -------------------- */
 
     const [productSaleData, setProductSaleData] = useState([]);
+    const [accumulateTotalData, setAccumulateTotalData] = useState();
 
     const transactionCodeFieldToSearch = useRef();
 
@@ -45,9 +46,9 @@ const SalesData = () => {
             }
         );
 
-        const getProductSale = await productSaleDataRequest.data.data.get_all_product_sale;
+        const getProductSale = await productSaleDataRequest.data;
 
-        setProductSaleData(getProductSale);
+        setProductSaleData(getProductSale.data.get_all_product_sale);
     };
 
     useEffect(() => {
@@ -200,7 +201,7 @@ const SalesData = () => {
         return getedDataBySalesDate;
 
     };
-    
+
     const createPDFToSaleReport = async () => {
 
         const getedDataBySalesDate = await handleGetProductBySalesDate()
@@ -323,7 +324,16 @@ const SalesData = () => {
                                 <td>{productSale.customer}</td>
                                 <td>{productSale.transactionType}</td>
                                 <td>{productSale.salesDate}</td>
-                                <td>{CurrencyFormatter(productSale.price)}</td>  {/* PR COYYYYYYYYYYY */}
+                                <td>
+                                    {
+                                        CurrencyFormatter(productSale.salesProducts.reduce((total, item) => {
+                                            const productPrice = item.product.price;
+                                            const quantity = item.quantity;
+                                            const subtotal = productPrice * quantity;
+                                            return total + subtotal;
+                                        }, 0))
+                                    }
+                                </td>
                                 <td>
                                     <Link to={`/sales-data/${productSale.id}/detail`}>
                                         <i className="bi bi-info-circle"></i>
