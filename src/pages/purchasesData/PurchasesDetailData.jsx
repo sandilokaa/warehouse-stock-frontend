@@ -11,15 +11,15 @@ import axios from "axios";
 import CurrencyFormatter from "../../assets/js/currencyFormatter";
 
 
-const SalesDetailData = () => {
+const PurchasesDetailData = () => {
 
     const navigate = useNavigate();
 
     const params = useLocation();
 
-    const saleId = (params.pathname).split('/')[2];
+    const purchaseId = (params.pathname).split('/')[2];
 
-    const [productSaleData, setProductSaleData] = useState([]);
+    const [productPurchaseData, setProductPurchaseData] = useState([]);
     const [accumulateData, setAccumulateData] = useState();
 
     const onSearch = async () => {
@@ -28,8 +28,8 @@ const SalesDetailData = () => {
 
             const token = localStorage.getItem("token");
 
-            const getProductSaleDataRequest = await axios.get(
-                `http://localhost:2000/v1/sales/${saleId}/product-sale/search`,
+            const getProductPurchaseDataRequest = await axios.get(
+                `http://localhost:2000/v1/purchases/${purchaseId}/product-purchase/search`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -38,11 +38,11 @@ const SalesDetailData = () => {
                 }
             );
 
-            const getProductSaleDataResponse = getProductSaleDataRequest.data;
+            const getProductPurchaseDataResponse = getProductPurchaseDataRequest.data;
 
             const getSubTotal = []
             
-            getSubTotal.push(...getProductSaleDataResponse.data.product_sale_by_sale_id.map(item => item.subTotal));
+            getSubTotal.push(...getProductPurchaseDataResponse.data.product_purchase_by_purchase_id.map(item => item.subTotal));
 
             const convertedSubTotal = getSubTotal.map(item => parseFloat(item));
             
@@ -50,7 +50,7 @@ const SalesDetailData = () => {
 
             setAccumulateData(total)
 
-            setProductSaleData(getProductSaleDataResponse.data.product_sale_by_sale_id);
+            setProductPurchaseData(getProductPurchaseDataResponse.data.product_purchase_by_purchase_id);
 
         } catch (err) {
 
@@ -65,14 +65,14 @@ const SalesDetailData = () => {
         onSearch();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [saleId]);
+    }, [purchaseId]);
 
     return (
 
         <HomeLayout>
             <Container>
 
-                <Button className="btn btn-back-page" onClick={() => navigate('/sales-data')}> Back To Sales Page </Button>
+                <Button className="btn btn-back-page" onClick={() => navigate('/purchases-data')}> Back To Sales Page </Button>
 
                 <Table striped bordered hover className="warehouse-product-sale-table">
                     <thead>
@@ -86,14 +86,14 @@ const SalesDetailData = () => {
                         </tr>
                     </thead>
                     {
-                        productSaleData.map((item, index) =>
+                        productPurchaseData.map((item, index) =>
                             <tbody key={item.id}>
                                 <tr>
                                     <td>{index + 1}</td>
                                     <td>{item ? item.product.name : null}</td>
                                     <td>{item ? item.product.category.categoryName : null}</td>
                                     <td>{item ? item.quantity : null}</td>
-                                    <td>{item ? CurrencyFormatter(item.product.price) : null}</td>
+                                    <td>{item ? CurrencyFormatter(item.purchasePrice) : null}</td>
                                     <td>{item ? CurrencyFormatter(item.subTotal) : null}</td>
                                 </tr>
                             </tbody>
@@ -114,5 +114,5 @@ const SalesDetailData = () => {
 
 };
 
-export default SalesDetailData;
+export default PurchasesDetailData;
 

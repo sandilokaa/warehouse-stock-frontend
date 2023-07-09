@@ -414,9 +414,13 @@ const NavbarGeneral = () => {
                                 Add Product
                             </NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link className="nav-item" onClick={handleShowFormProductSale}>
+                        <Nav.Link className="nav-item" onClick={() => navigate('/sales-data')}>
                             <i className="bi bi-cart-check"></i>
                             Sale
+                        </Nav.Link>
+                        <Nav.Link className="nav-item" onClick={() => navigate('/purchases-data')}>
+                            <i className="bi bi-cash"></i>
+                            Purchase
                         </Nav.Link>
                         <Nav.Link className="nav-profile">
                             <div className="profile-admin">

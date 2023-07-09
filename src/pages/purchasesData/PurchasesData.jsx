@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import HomeLayout from "../../layouts/home/HomeLayout";
+import "../../assets/css/style.css";
 import {
     Container,
     Table,
@@ -10,22 +12,19 @@ import {
     Card
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import HomeLayout from "../../layouts/home/HomeLayout";
-import "../../assets/css/style.css";
 import axios from "axios";
 import CurrencyFormatter from "../../assets/js/currencyFormatter";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 
-const SalesData = () => {
+const PurchasesData = () => {
 
     const navigate = useNavigate();
 
+    /* -------------------- Get Product Purchase -------------------- */
 
-    /* -------------------- Get Product Sale -------------------- */
-
-    const [productSaleData, setProductSaleData] = useState([]);
+    const [productPurchaseData, setProductPurchaseData] = useState([]);
 
     const transactionCodeFieldToSearch = useRef();
 
@@ -33,10 +32,10 @@ const SalesData = () => {
 
         const token = localStorage.getItem("token");
 
-        const getProductSaleDataByTransactionCode = transactionCodeFieldToSearch.current.value;
+        const getProductPurchaseDataByTransactionCode = transactionCodeFieldToSearch.current.value;
 
-        const productSaleDataRequest = await axios.get(
-            `http://localhost:2000/v1/sales/transaction/search?transactionCode=${getProductSaleDataByTransactionCode}`,
+        const productPurchaseDataRequest = await axios.get(
+            `http://localhost:2000/v1/purchases/transaction/search?transactionCode=${getProductPurchaseDataByTransactionCode}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -45,9 +44,9 @@ const SalesData = () => {
             }
         );
 
-        const getProductSale = await productSaleDataRequest.data.data.get_all_product_sale;
+        const getProductPurchaseResponse = await productPurchaseDataRequest.data.data.get_all_product_purchase;
 
-        setProductSaleData(getProductSale);
+        setProductPurchaseData(getProductPurchaseResponse);
     };
 
     useEffect(() => {
@@ -57,21 +56,20 @@ const SalesData = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /* -------------------- End Get Product Sale -------------------- */
+    /* -------------------- End Get Product Purchase -------------------- */
 
 
-    /* -------------------- Get Product Sale By Sale Id -------------------- */
-
+    /* -------------------- Get Product Purchase By Purchase Id -------------------- */
     const [accumulateData, setAccumulateData] = useState();
 
-    const handleGetProductSaleBySaleId = async (saleId) => {
+    const handleGetProductPurchaseByPurchaseId = async (purchaseId) => {
 
         try {
 
             const token = localStorage.getItem("token");
 
-            const getProductSaleDataRequest = await axios.get(
-                `http://localhost:2000/v1/sales/${saleId}/product-sale/search`,
+            const getProductPurchaseDataRequest = await axios.get(
+                `http://localhost:2000/v1/purchases/${purchaseId}/product-purchase/search`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -80,19 +78,19 @@ const SalesData = () => {
                 }
             );
 
-            const getProductSaleDataResponse = getProductSaleDataRequest.data.data.product_sale_by_sale_id;
+            const getProductPurchaseDataResponse = getProductPurchaseDataRequest.data.data.product_purchase_by_purchase_id;
 
             const getSubTotal = []
-
-            getSubTotal.push(...getProductSaleDataResponse.map(item => item.subTotal));
+            
+            getSubTotal.push(...getProductPurchaseDataResponse.map(item => item.subTotal));
 
             const convertedSubTotal = getSubTotal.map(item => parseFloat(item));
-
+            
             const total = convertedSubTotal.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-            setAccumulateData(total);
+            setAccumulateData(total)
 
-            return getProductSaleDataResponse;
+            return getProductPurchaseDataResponse;
 
         } catch (err) {
 
@@ -102,16 +100,19 @@ const SalesData = () => {
 
     };
 
-    /* -------------------- End Get Product Sale By Sale Id -------------------- */
+    /* -------------------- End Get Product Purchase By Purchase Id -------------------- */
 
 
-    /* -------------------- Handle Create Nota Product Sale By Id -------------------- */
+    // /* -------------------- Handle Create Nota Product Purchase By Id -------------------- */
 
-    const createPDFToProductSale = async (saleId) => {
 
-        const productSaleDataBySaleId = await handleGetProductSaleBySaleId(saleId)
+    const createPDFToProductPurchase = async (purchaseId) => {
 
-        if (productSaleDataBySaleId) {
+        const productPurchaseDataByPurchaseId = await handleGetProductPurchaseByPurchaseId(purchaseId);
+
+        console.log(productPurchaseDataByPurchaseId);
+
+        if (productPurchaseDataByPurchaseId) {
 
             const doc = new jsPDF();
 
@@ -123,7 +124,7 @@ const SalesData = () => {
 
             doc.setFont('Times New Roman');
             doc.setFontSize(12);
-            doc.text('Laporan Data Produk Terjual', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
+            doc.text('Laporan Data Pembelian Produk', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
 
             doc.setFont('Times New Roman');
             doc.setFontSize(12);
@@ -137,8 +138,8 @@ const SalesData = () => {
 
             tableData.push(['No', 'Nama', 'Kategori', 'Jumlah', 'Harga Beli', 'SubTotal']);
 
-            productSaleDataBySaleId.map((item, index) => {
-                return tableData.push([index + 1, item.product.name, item.product.category.categoryName, item.quantity, CurrencyFormatter(item.product.price), CurrencyFormatter(item.subTotal)]);
+            productPurchaseDataByPurchaseId.map((item, index) => {
+                return tableData.push([index + 1, item.product.name, item.product.category.categoryName, item.quantity, CurrencyFormatter(item.purchasePrice), CurrencyFormatter(item.subTotal) ]);
             });
 
             tableData.push([`Total`, ``, ``, ``, ``, `${CurrencyFormatter(accumulateData)}`]);
@@ -160,15 +161,15 @@ const SalesData = () => {
 
             /* ------ Unduh dokumen PDF ------ */
 
-            doc.save('product-sale-note.pdf', { autoDownload: false });
+            doc.save('product-purchase-note.pdf', { autoDownload: false });
 
         }
     };
 
-    /* -------------------- End Handle Create Nota Product Sale By Id -------------------- */
+    // /* -------------------- End Handle Create Nota Product Purchase By Id -------------------- */
 
 
-    /* -------------------- Handle Download Sale Report -------------------- */
+    // /* -------------------- Handle Download Purchase Report -------------------- */
 
     const [selectedDate, setSelectedDate] = useState('');
 
@@ -181,12 +182,12 @@ const SalesData = () => {
     };
 
 
-    const handleGetProductBySalesDate = async () => {
+    const handleGetProductByPurchaseDate = async () => {
 
         const token = localStorage.getItem("token");
 
-        const productSaleDataRequest = await axios.get(
-            `http://localhost:2000/v1/sales/transaction/search?salesDate=${selectedDate}`,
+        const productPurchaseDataRequest = await axios.get(
+            `http://localhost:2000/v1/purchases/transaction/search?salesDate=${selectedDate}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -195,17 +196,17 @@ const SalesData = () => {
             }
         );
 
-        const getedDataBySalesDate = await productSaleDataRequest.data.data.get_all_product_sale;
+        const getedDataBySalesDate = await productPurchaseDataRequest.data.data.get_all_product_purchase;
 
         return getedDataBySalesDate;
 
     };
     
-    const createPDFToSaleReport = async () => {
+    const createPDFToPurchaseReport = async () => {
 
-        const getedDataBySalesDate = await handleGetProductBySalesDate()
+        const getedDataByPurchaseDate = await handleGetProductByPurchaseDate()
 
-        if (getedDataBySalesDate) {
+        if (getedDataByPurchaseDate) {
 
             const doc = new jsPDF();
 
@@ -233,10 +234,10 @@ const SalesData = () => {
 
             const tableData = []
 
-            tableData.push(['No', 'Transaction Code', 'Customer', 'Sale Date', 'Total']);
+            tableData.push(['No', 'Transaction Code', 'Transaction Type', 'Supplier', 'Purchase Date', 'Total']);
 
-            getedDataBySalesDate.map((item, index) => {
-                return tableData.push([index + 1, item.transactionCode, item.customer, item.salesDate]);
+            getedDataByPurchaseDate.map((item, index) => {
+                return tableData.push([index + 1, item.transactionCode, item.transactionType , item.supplier, item.purchaseDate ]);
             });
 
             const startY = 60;
@@ -256,22 +257,23 @@ const SalesData = () => {
 
             /* ------ Unduh dokumen PDF ------ */
 
-            doc.save('sale-report-note.pdf', { autoDownload: false });
+            doc.save('purchase-report-note.pdf', { autoDownload: false });
 
         }
     };
 
-    /* -------------------- End Handle Download Sale Report -------------------- */
+    // /* -------------------- End Handle Download Purchase Report -------------------- */
 
 
     return (
 
         <HomeLayout>
+            
             <Container>
 
                 <Row>
                     <Col className="col-12 col-lg-6 d-flex justify-content-start">
-                        <Button className="btn btn-add-transaction" onClick={() => navigate('/add-product-sale')}> Add Transaction </Button>
+                        <Button className="btn btn-add-transaction" onClick={() => navigate('/add-product-purchase')}> Add Transaction </Button>
                     </Col>
                     <Col className="col-12 col-lg-6 d-flex justify-content-end">
                         <InputGroup className="mb-3 warehouse-search-group">
@@ -290,56 +292,55 @@ const SalesData = () => {
                 </Row>
 
                 <Row>
-                    <Col className="col-12 col-lg-4 download-sale-report">
+                    <Col className="col-12 col-lg-4 download-purchase-report">
                         <Card style={{ width: '100%' }}>
                             <Card.Body>
-                                <Card.Title>Download Sale Report</Card.Title>
+                                <Card.Title>Download Purchase Report</Card.Title>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                     <Form.Control type="date" autoComplete="off" value={selectedDate} onChange={handleDateChange} />
                                 </Form.Group>
-                                <Button className="btn btn-download-sale-report" onClick={createPDFToSaleReport}> Download </Button>
+                                <Button className="btn btn-download-purchase-report" onClick={createPDFToPurchaseReport} > Download </Button>
                             </Card.Body>
                         </Card>
                     </Col>
                 </Row>
 
-                <Table striped bordered hover className="warehouse-product-sale-table">
+                <Table striped bordered hover className="warehouse-product-purchase-table">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Transaction Code</th>
-                            <th>Customer</th>
                             <th>Transaction Type</th>
                             <th>Sale Date</th>
                             <th>Total</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    {productSaleData.map((productSale, index) =>
-                        <tbody key={productSale.id}>
+                    {productPurchaseData.map((productPurchase, index) =>
+                        <tbody key={productPurchase.id}>
                             <tr>
                                 <td>{index + 1}</td>
-                                <td>{productSale.transactionCode}</td>
-                                <td>{productSale.customer}</td>
-                                <td>{productSale.transactionType}</td>
-                                <td>{productSale.salesDate}</td>
-                                <td>{CurrencyFormatter(productSale.price)}</td>  {/* PR COYYYYYYYYYYY */}
+                                <td>{productPurchase.transactionCode}</td>
+                                <td>{productPurchase.transactionType}</td>
+                                <td>{productPurchase.purchaseDate}</td>
+                                <td>{CurrencyFormatter(productPurchase.price)}</td>  {/* PR COYYYYYYYYYYY */}
                                 <td>
-                                    <Link to={`/sales-data/${productSale.id}/detail`}>
+                                    <Link to={`/purchases-data/${productPurchase.id}/detail`}>
                                         <i className="bi bi-info-circle"></i>
                                     </Link>
-                                    <i className="bi bi-filetype-pdf" onClick={() => createPDFToProductSale(productSale.id)}></i>
+                                    <i className="bi bi-filetype-pdf" onClick={() => createPDFToProductPurchase(productPurchase.id)}></i>
                                 </td>
                             </tr>
                         </tbody>
                     )}
                 </Table>
             </Container>
+
         </HomeLayout>
 
     );
 
 };
 
-export default SalesData;
+export default PurchasesData;
 

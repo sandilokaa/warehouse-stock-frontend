@@ -97,10 +97,13 @@ const HeaderGeneral = () => {
                                 <Button className={splitLocation[1] === "categories-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/categories-data`)}> Categories </Button>
                             </Col>
                             <Col className="col-4 col-lg-2">
-                                <Button className={splitLocation[1] === "sales-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/sales-data`)}> Sale </Button>
+                                <Button className={splitLocation[1] === "purchases-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/purchases-data`)}> Purchases </Button>
                             </Col>
                             <Col className="col-4 col-lg-2">
-                                <Button className={splitLocation[1] === "reports-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/reports-data`)}> Report </Button>
+                                <Button className={splitLocation[1] === "sales-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/sales-data`)}> Sales </Button>
+                            </Col>
+                            <Col className="col-4 col-lg-2">
+                                <Button className={splitLocation[1] === "averages-data" ? "active" : "btn-choose-analytics"} onClick={() => navigate(`/averages-data`)}> Average </Button>
                             </Col>
                         </Row>
                     </div>

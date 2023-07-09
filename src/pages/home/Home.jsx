@@ -106,7 +106,7 @@ const Home = () => {
             const token = localStorage.getItem("token");
 
             const productSaleDataRequest = await axios.get(
-                `http://localhost:2000/v1/sales/search`,
+                `http://localhost:2000/v1/sales/transaction/search`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -116,6 +116,8 @@ const Home = () => {
             );
 
             const getProductSale = await productSaleDataRequest.data.data.get_all_product_sale;
+
+            console.log(getProductSale);
 
             setProductSaleData(getProductSale);
         };

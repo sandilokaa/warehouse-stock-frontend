@@ -23,7 +23,7 @@ body{
 }
 
 .nav-item{
-    margin-right: 40px;
+    margin-right: 24px;
     color: #FFFFFF;
     font-weight: 500;
     text-decoration: none;
@@ -427,6 +427,7 @@ body{
 #button-addon2{
     background-color: #01162F;
     border: none;
+    font-weight: 500;
 }
 
 .warehouse-products-table {
@@ -441,7 +442,7 @@ body{
 }
 
 .warehouse-products-table .bi-trash{
-    padding: 1% 2%;
+    padding: 1% 6%;
     background-color: #B31312;
     color: #FFFFFF;
     border-radius: 5px;
@@ -449,7 +450,7 @@ body{
 }
 
 .warehouse-products-table .bi-pencil-square{
-    padding: 1% 2%;
+    padding: 1% 6%;
     background-color: #0078FD;
     color: #FFFFFF;
     border-radius: 5px;
@@ -460,6 +461,17 @@ body{
 
 
 /* ---------- Products Sale Table Content  ---------- */
+
+.btn-add-transaction{
+    background-color: #01162F;
+    border: none;
+    height: 74%;
+    font-weight: 500;
+}
+
+.btn-add-transaction:hover{
+    background-color: #01162F;
+}
 
 .warehouse-product-sale-table {
     margin: 4% 0 6%;
@@ -473,7 +485,7 @@ body{
 }
 
 .warehouse-product-sale-table .bi-info-circle{
-    padding: 1% 2%;
+    padding: 1% 6%;
     background-color: #0078FD;
     color: #FFFFFF;
     border-radius: 5px;
@@ -481,11 +493,169 @@ body{
 }
 
 .warehouse-product-sale-table .bi-filetype-pdf{
-    padding: 1% 2%;
+    padding: 1% 6%;
     background-color: #B31312;
     color: #FFFFFF;
     border-radius: 5px;
     cursor: pointer;
 }
 
+.btn-back-page{
+    background-color: #01162F;
+    border: none;
+    font-weight: 500;
+}
+
+.btn-back-page:hover{
+    background-color: #01162F;
+}
+
 /* ---------- End Products Sale Table Content  ---------- */
+
+
+/* ---------- Products Sale Download Report  ---------- */
+
+.download-sale-report .card{
+    margin: 2% 0 0;
+}
+
+.download-sale-report .card-title{
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.btn-download-sale-report{
+    background-color: #01162F;
+    border: none;
+    height: 74%;
+    width: 100%;
+    font-weight: 500;
+}
+
+.btn-download-sale-report:hover{
+    background-color: #01162F;
+}
+
+/* ---------- End Products Sale Download Report  ---------- */
+
+
+/* ---------- Add Transaction in Product Sale Content  ---------- */
+
+.btn-add-product{
+    background-color: #01162F;
+    border: none;
+    font-weight: 500;
+    margin: 0 0 6%;
+}
+
+.btn-add-product:hover{
+    background-color: #01162F;
+}
+
+.extend-product-sale{
+    font-weight: 500;
+    color: #000000;
+}
+
+.btn-submit-transaction{
+    background-color: #01162F;
+    border: none;
+    font-weight: 500;
+    margin: 0 0 6%;
+}
+
+.btn-submit-transaction:hover{
+    background-color: #01162F;
+}
+
+.btn-back{
+    background-color: #01162F;
+    border: none;
+    font-weight: 500;
+    height: 52%;
+}
+
+.btn-back:hover{
+    background-color: #01162F;
+}
+
+.warehouse-product-sale-table .bi-trash{
+    padding: 1% 6%;
+    background-color: #B31312;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ---------- End Add Transaction in Product Sale Content  ---------- */
+
+
+/* ---------- Products Purchase Table Content  ---------- */
+
+.warehouse-product-purchase-table {
+    margin: 4% 0 6%;
+    text-align: center;
+    border: #01162F;
+}
+
+.warehouse-product-purchase-table .bi-trash{
+    padding: 1% 6%;
+    background-color: #B31312;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.warehouse-product-purchase-table i{
+    margin: 0 4% 0;
+    font-size: 20px;
+}
+
+.warehouse-product-purchase-table .bi-info-circle{
+    padding: 1% 6%;
+    background-color: #0078FD;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.warehouse-product-purchase-table .bi-filetype-pdf{
+    padding: 1% 6%;
+    background-color: #B31312;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ---------- End Products Purchase Table Content  ---------- */
+
+
+/* ---------- Add Transaction in Product Purchase Content  ---------- */
+
+.extend-product-purchase{
+    font-weight: 500;
+    color: #000000;
+}
+
+.download-purchase-report .card{
+    margin: 2% 0 0;
+}
+
+.download-purchase-report .card-title{
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.btn-download-purchase-report{
+    background-color: #01162F;
+    border: none;
+    height: 74%;
+    width: 100%;
+    font-weight: 500;
+}
+
+.btn-download-purchase-report:hover{
+    background-color: #01162F;
+}
+
+/* ---------- End Add Transaction in Product Purchase Content  ---------- */
