@@ -163,31 +163,39 @@ body{
 
 .card-result-total .card-title{
     font-weight: 600;
+    font-size: 18px;
 }
 
 .card-result-total .card-text{
     font-weight: 700;
     margin: 16% 0 0;
-    font-size: 32px;
+    font-size: 24px;
 }
 
 .card-result-total .bi-shop{
-    padding: 14px 18px;
+    padding: 10px 12px;
     background-color: #0078FD;
     color: #FFFFFF;
     border-radius: 50px;
 }
 
 .card-result-total .bi-cash-coin{
-    padding: 14px 18px;
+    padding: 10px 12px;
     background-color: #FF623E;
     color: #FFFFFF;
     border-radius: 50px;
 }
 
 .card-result-total .bi-tag{
-    padding: 14px 18px;
+    padding: 10px 12px;
     background-color: #FC026C;
+    color: #FFFFFF;
+    border-radius: 50px;
+}
+
+.card-result-total .bi-bag-plus{
+    padding: 10px 12px;
+    background-color: #00DFA2;
     color: #FFFFFF;
     border-radius: 50px;
 }
@@ -677,6 +685,19 @@ body{
 }
 
 .btn-download-average:hover{
+    background-color: #01162F;
+}
+
+.btn-add-opname{
+    background-color: #01162F;
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-weight: 500;
+    margin: 0 0 6% 0;
+}
+
+.btn-add-opname:hover{
     background-color: #01162F;
 }
 

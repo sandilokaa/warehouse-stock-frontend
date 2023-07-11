@@ -131,6 +131,40 @@ const Home = () => {
     /* -------------------- End Get Product Sale -------------------- */
 
 
+    /* -------------------- Get Product Purchase -------------------- */
+
+    const [productPurchaseData, setProductPurchaseData] = useState([]);
+
+    useEffect(() => {
+
+        const onProductPurchaseData = async () => {
+
+            const token = localStorage.getItem("token");
+
+            const productPurchaseDataRequest = await axios.get(
+                `http://localhost:2000/v1/purchases/transaction/search`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                }
+            );
+
+            const getProductPurchase = await productPurchaseDataRequest.data.data.get_all_product_purchase;
+
+            setProductPurchaseData(getProductPurchase);
+        };
+
+        onProductPurchaseData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+    /* -------------------- End Get Product Sale -------------------- */
+
+
     /* -------------------- Get Category -------------------- */
 
     const [category, setCategory] = useState([]);
@@ -213,7 +247,7 @@ const Home = () => {
                 <Container>
                     <div className="card-result-total">
                         <Row className="row-result-total">
-                            <Col className="col-12 col-lg-4 mt-3">
+                            <Col className="col-12 col-lg-3 mt-3">
                                 <Card className="card-total-products">
                                     <Card.Body>
                                         <Card.Title>
@@ -232,7 +266,27 @@ const Home = () => {
                                     </Card.Body>
                                 </Card>
                             </Col>
-                            <Col className="col-12 col-lg-4 mt-3">
+                            <Col className="col-12 col-lg-3 mt-3">
+                                <Card>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            <Row>
+                                                <Col className="col-3 col-lg-3">
+                                                    <i className="bi bi-tag"></i>
+                                                </Col>
+                                                <Col className="col-9 col-lg-9">
+                                                    Total Category
+                                                </Col>
+                                            </Row>
+                                        </Card.Title>
+                                        <Card.Text>
+                                            { category.length } Categories
+                                        </Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            
+                            <Col className="col-12 col-lg-3 mt-3">
                                 <Card>
                                     <Card.Body>
                                         <Card.Title>
@@ -251,21 +305,21 @@ const Home = () => {
                                     </Card.Body>
                                 </Card>
                             </Col>
-                            <Col className="col-12 col-lg-4 mt-3">
+                            <Col className="col-12 col-lg-3 mt-3">
                                 <Card>
                                     <Card.Body>
                                         <Card.Title>
                                             <Row>
                                                 <Col className="col-3 col-lg-3">
-                                                    <i className="bi bi-tag"></i>
+                                                    <i className="bi bi-bag-plus"></i>
                                                 </Col>
                                                 <Col className="col-9 col-lg-9">
-                                                    Total Category
+                                                    Total Purchases
                                                 </Col>
                                             </Row>
                                         </Card.Title>
                                         <Card.Text>
-                                            { category.length } Categories
+                                            {productPurchaseData.length} Purchases
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
