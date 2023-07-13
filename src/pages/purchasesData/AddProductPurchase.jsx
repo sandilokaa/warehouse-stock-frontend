@@ -315,7 +315,7 @@ const AddProductPurchase = () => {
                     <Col className="col-12 col-lg-3 extend-product-purchase">
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Transaction Type</Form.Label>
-                            <Form.Control type="text" autoComplete="off" ref={transactionTypeField} value="Pembelian" readonly />
+                            <Form.Control type="text" autoComplete="off" ref={transactionTypeField} value="Pembelian" readOnly />
                         </Form.Group>
                     </Col>
                 </Row>

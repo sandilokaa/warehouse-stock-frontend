@@ -116,15 +116,15 @@ const PurchasesData = () => {
 
             /* ------ Set Title ------ */
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(14);
             doc.text('WarehouseHub', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text('Laporan Data Pembelian Produk', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text('Jalan Balai Rakyat 10, Jakarta Timur, DKI Jakarta', doc.internal.pageSize.getWidth() / 2, 40, { align: 'center' });
 
@@ -210,19 +210,19 @@ const PurchasesData = () => {
 
             /* ------ Set Title ------ */
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(14);
             doc.text('WarehouseHub', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
-            doc.text('Laporan Harian Data Produk Terjual', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
+            doc.text('Laporan Harian Data Pembelian Produk', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text(`${selectedDate}`, doc.internal.pageSize.getWidth() / 2, 40, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text('Jalan Balai Rakyat 10, Jakarta Timur, DKI Jakarta', doc.internal.pageSize.getWidth() / 2, 50, { align: 'center' });
 

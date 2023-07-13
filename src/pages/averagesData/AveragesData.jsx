@@ -219,30 +219,27 @@ const AveragesData = () => {
 
         const getedDataByAverageDate = await onSearchAverage();
 
-        console.log(getedDataByAverageDate);
-
         const getProductData = getedDataByAverageDate.products[0];
 
         if (getedDataByAverageDate) {
 
             const doc = new jsPDF();
 
-
             /* ------ Set Title ------ */
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(14);
             doc.text('WarehouseHub', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text('Laporan Kartu Stok Persediaan (Average)', doc.internal.pageSize.getWidth() / 2, 30, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text('Jalan Balai Rakyat 10, Jakarta Timur, DKI Jakarta', doc.internal.pageSize.getWidth() / 2, 40, { align: 'center' });
 
-            doc.setFont('Times New Roman');
+            doc.setFont('Times-Roman');
             doc.setFontSize(12);
             doc.text(`Nama Barang: ${getProductData.product.name}`, 12, 50);
 
@@ -266,14 +263,14 @@ const AveragesData = () => {
                 styles: rowStyle,
             };
 
-            const tableData = [];
+            let tableData = [];
 
-            // console.log(tableData);
-
+            // Inisialisasi variabel totalBalanceDifference, totalDifferenceInUnits, dan totalPriceDifference
             let totalBalanceDifference = 0;
             let totalDifferenceInUnits = 0;
             let totalPriceDifference = 0;
 
+            // Mengisi data ke dalam tableData
             getedDataByAverageDate.products.forEach((item) => {
                 tableData.push([
                     item.opnameDate,
@@ -293,12 +290,11 @@ const AveragesData = () => {
             getedDataByAverageDate.productsSales.forEach((item) => {
                 item.salesProducts.forEach((value) => {
                     if (value.productId.toString() === selectedProduct) {
-
                         const unit = value.quantity;
                         const prevUnit = tableData[tableData.length - 1][8];
                         const differenceInUnits = prevUnit - unit;
 
-                        let priceDifference = tableData[tableData.length - 1][9];
+                        const priceDifference = tableData[tableData.length - 1][9];
 
                         const price = unit * priceDifference;
                         const prevPrice = tableData[tableData.length - 1][10];
@@ -317,7 +313,7 @@ const AveragesData = () => {
                             "",
                             "",
                             unit,
-                            totalPriceDifference,
+                            priceDifference,
                             price,
                             totalDifferenceInUnits,
                             averagePrice,
@@ -327,24 +323,21 @@ const AveragesData = () => {
                 });
             });
 
-
-
             getedDataByAverageDate.productsPurchases.forEach((item) => {
                 item.purchasesProducts.forEach((value) => {
                     if (value.productId.toString() === selectedProduct) {
-
                         const unit = value.quantity;
                         const prevUnit = tableData[tableData.length - 1][8];
                         const differenceInUnits = prevUnit + unit;
 
                         const price = unit * value.purchasePrice;
                         const prevPrice = tableData[tableData.length - 1][10];
-                        const balanceDifference = prevPrice + price;
+                        const balanceDifference = prevPrice - price;
 
                         totalDifferenceInUnits = differenceInUnits;
                         totalBalanceDifference = balanceDifference;
 
-                        let averagePrice = parseInt((totalBalanceDifference / totalDifferenceInUnits).toFixed(0));
+                        let averagePrice = parseInt((balanceDifference / differenceInUnits).toFixed(0));
 
                         tableData.push([
                             item.purchaseDate,
@@ -357,12 +350,106 @@ const AveragesData = () => {
                             "",
                             totalDifferenceInUnits,
                             averagePrice,
-                            totalBalanceDifference
+                            totalBalanceDifference,
                         ]);
                     }
                 });
             });
 
+            const sortedTableData = [...tableData];
+
+            sortedTableData.sort((a, b) => {
+                const dateA = new Date(a[0]);
+                const dateB = new Date(b[0]);
+                return dateA - dateB;
+            });
+
+            const sortedDataOnly = [];
+            
+            sortedTableData.forEach((item, index) => {
+                if (index === 0) {
+                    sortedDataOnly.push([
+                        item[0],
+                        item[1],
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        item[8],
+                        item[9],
+                        item[10],
+                    ]);
+                    totalBalanceDifference = item[10];
+                    totalDifferenceInUnits = item[8];
+                    totalPriceDifference = item[9];
+                } else {
+
+                    if (item[1] === 'Penjualan') {
+                        const prevItem = sortedTableData[index - 1];
+                        const prevUnit = prevItem[8];
+                        const unitSale = item[5];
+                        const priceDifference = prevItem[9];
+                        const price = unitSale * priceDifference;
+                        const prevPrice = prevItem[10];
+                        const balanceDifference = prevPrice - price;
+                        const differenceInUnits = prevUnit - unitSale;
+
+                        totalDifferenceInUnits = differenceInUnits;
+                        totalBalanceDifference = balanceDifference;
+
+                        let averagePrice = parseInt((balanceDifference / differenceInUnits).toFixed(0));
+
+                        item[8] = totalDifferenceInUnits;
+                        item[9] = averagePrice;
+                        item[10] = totalBalanceDifference;
+                        sortedDataOnly.push([
+                            item[0],
+                            item[1],
+                            "",
+                            "",
+                            "",
+                            item[5],
+                            item[6],
+                            item[7],
+                            totalDifferenceInUnits,
+                            averagePrice,
+                            totalBalanceDifference,
+                        ]);
+                    } else if (item[1] === 'Pembelian') {
+                        const prevItem = sortedTableData[index - 1];
+                        const prevUnit = prevItem[8];
+                        const unitPurchase = item[2];
+                        const price = unitPurchase * item[3];
+                        const prevPrice = prevItem[10];
+                        const balanceDifference = prevPrice + price;
+                        const differenceInUnits = prevUnit + unitPurchase;
+
+                        totalDifferenceInUnits = differenceInUnits;
+                        totalBalanceDifference = balanceDifference;
+
+                        let averagePrice = parseInt((balanceDifference / differenceInUnits).toFixed(0));
+
+                        item[8] = totalDifferenceInUnits;
+                        item[9] = averagePrice;
+                        item[10] = totalBalanceDifference;
+                        sortedDataOnly.push([
+                            item[0],
+                            item[1],
+                            item[2],
+                            item[3],
+                            item[4],
+                            "",
+                            "",
+                            "",
+                            totalDifferenceInUnits,
+                            averagePrice,
+                            totalBalanceDifference,
+                        ]);
+                    }
+                }
+            });
 
             doc.autoTable({
                 ...tableConfig,
@@ -375,7 +462,7 @@ const AveragesData = () => {
                     ],
                     ["Tanggal", "Keterangan", "Unit", "Harga", "Saldo", "Unit", "Harga", "Saldo", "Unit", "Harga", "Saldo"],
                 ],
-                body: tableData
+                body: sortedDataOnly
             });
 
             /* ------ End Set Table ------ */
