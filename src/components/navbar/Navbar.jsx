@@ -46,17 +46,6 @@ const NavbarGeneral = () => {
 
     /* -------------------- End Form Create Product -------------------- */
 
-
-    /* -------------------- Form Create Product Sale -------------------- */
-
-    const [showFormProductSale, setShowFormProductSale] = useState(false);
-
-    const handleCloseFormProductSale = () => setShowFormProductSale(false);
-    const handleShowFormProductSale = () => setShowFormProductSale(true);
-
-    /* -------------------- End Form Create Product Sale -------------------- */
-
-
     /* -------------------- Current Admin -------------------- */
 
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -217,6 +206,11 @@ const NavbarGeneral = () => {
 
         try {
 
+            if (!selectedCategory) {
+                enqueueSnackbar('Silakan pilih kategori dahulu (:', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+                return;
+            }
+
             const token = localStorage.getItem("token");
 
             const adminToCreateProductPayload = {
@@ -361,12 +355,15 @@ const NavbarGeneral = () => {
                                 <Form.Label>Price</Form.Label>
                                 <Form.Control type="number" placeholder="Example: 30000" autoComplete="off" ref={priceField} />
                             </Form.Group>
-                            <Form.Select aria-label="Default select example" onChange={handleSelectCategoryChange} value={selectedCategory}>
-                                <option>Category</option>
-                                {category.map((data) =>
-                                    <option value={data.id} key={data.id}>{data.categoryName}</option>
-                                )}
-                            </Form.Select>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select aria-label="Default select example" onChange={handleSelectCategoryChange} value={selectedCategory}>
+                                    <option>Category</option>
+                                    {category.map((data) =>
+                                        <option value={data.id} key={data.id}>{data.categoryName}</option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>

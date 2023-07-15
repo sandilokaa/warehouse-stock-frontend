@@ -12,7 +12,6 @@ import "../../assets/css/style.css";
 import axios from "axios";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import CurrencyFormatter from "../../assets/js/currencyFormatter";
 import { useSnackbar } from 'notistack';
 
 
@@ -207,7 +206,7 @@ const AveragesData = () => {
             productsPurchases: getProductPurchaseResponse
         }
 
-        return mergedData
+        return mergedData;
     };
 
     // /* -------------------- End Get Product -------------------- */
@@ -265,12 +264,10 @@ const AveragesData = () => {
 
             let tableData = [];
 
-            // Inisialisasi variabel totalBalanceDifference, totalDifferenceInUnits, dan totalPriceDifference
             let totalBalanceDifference = 0;
             let totalDifferenceInUnits = 0;
             let totalPriceDifference = 0;
 
-            // Mengisi data ke dalam tableData
             getedDataByAverageDate.products.forEach((item) => {
                 tableData.push([
                     item.opnameDate,

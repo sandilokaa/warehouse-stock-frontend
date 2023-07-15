@@ -170,10 +170,13 @@ const PurchasesData = () => {
     // /* -------------------- Handle Download Purchase Report -------------------- */
 
     const [selectedDate, setSelectedDate] = useState('');
+    // const [accumulateTotalData, setAccumulateTotalData] = useState();
 
     const handleDateChange = (e) => {
 
         const selectedDateValue = e.target.value;
+
+        console.log(selectedDateValue);
 
         setSelectedDate(selectedDateValue);
 
@@ -195,6 +198,8 @@ const PurchasesData = () => {
         );
 
         const getedDataBySalesDate = await productPurchaseDataRequest.data.data.get_all_product_purchase;
+
+        console.log(getedDataBySalesDate);
 
         return getedDataBySalesDate;
 
@@ -255,7 +260,7 @@ const PurchasesData = () => {
 
             /* ------ Unduh dokumen PDF ------ */
 
-            doc.save('purchase-report-note.pdf', { autoDownload: false });
+            // doc.save('purchase-report-note.pdf', { autoDownload: false });
 
         }
     };

@@ -178,6 +178,8 @@ const ProductsData = () => {
 
         const selectedCategoryValue = e.target.value;
 
+        console.log(selectedCategoryValue);
+
         setSelectedCategory(selectedCategoryValue);
 
     };
@@ -185,6 +187,11 @@ const ProductsData = () => {
     const onUpdateProduct = async (id) => {
 
         try {
+
+            if (selectedCategory === 'Category') {
+                enqueueSnackbar('Silakan pilih kategori dahulu (:', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
+                return;
+            }
 
             const token = localStorage.getItem("token");
             const id = localStorage.getItem("id")
@@ -208,8 +215,6 @@ const ProductsData = () => {
                 }
             );
 
-            console.log(updateProductRequest);
-
             const updateProductResponse = updateProductRequest.data;
 
             enqueueSnackbar(updateProductResponse.message, { variant: 'success', anchorOrigin: { vertical: 'top', horizontal: 'center' }, autoHideDuration: 2000 });
@@ -217,7 +222,7 @@ const ProductsData = () => {
             if (updateProductResponse.status) {
 
                 localStorage.removeItem("id")
-                
+
                 window.location.reload("/products-data")
 
             }
@@ -311,12 +316,15 @@ const ProductsData = () => {
                                 <Form.Label>Price</Form.Label>
                                 <Form.Control type="number" autoComplete="off" defaultValue={productDataById ? productDataById.price : null} ref={priceField} />
                             </Form.Group>
-                            <Form.Select aria-label="Default select example" onChange={handleSelectCategoryChange} value={selectedCategory}>
-                                <option>Category</option>
-                                {category.map((data) =>
-                                    <option value={data.id} key={data.id}>{data.categoryName}</option>
-                                )}
-                            </Form.Select>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Select aria-label="Default select example" onChange={handleSelectCategoryChange} value={selectedCategory}>
+                                    <option value='Category'>Category</option>
+                                    {category.map((data) =>
+                                        <option value={data.id} key={data.id}>{data.categoryName}</option>
+                                    )}
+                                </Form.Select>
+                            </Form.Group>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
